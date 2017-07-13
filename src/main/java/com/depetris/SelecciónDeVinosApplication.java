@@ -1,4 +1,4 @@
-package com.depetris.sdv;
+package com.depetris;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
