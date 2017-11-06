@@ -3,28 +3,54 @@ package com.dp3;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.dp3.dao.ProductRepository;
+import com.dp3.dao.UserRepository;
 import com.dp3.domain.Cellar;
 import com.dp3.domain.Product;
+import com.dp3.domain.Usuario;
 import com.dp3.domain.Wine;
 
 @Component
 public class DbSeeder implements CommandLineRunner {
 	
 	private ProductRepository productRepository;
+	private UserRepository usersRepository;
 	
-	public DbSeeder(ProductRepository repo) {
-		this.productRepository = repo;
+	public DbSeeder(ProductRepository productRepository, UserRepository usersRepository) {
+		this.productRepository = productRepository;
+		this.usersRepository = usersRepository;
 	}
 	
 	@Override
 	public void run(String... arg0) throws Exception {
 		
+		this.usersRepository.deleteAll();
 		this.productRepository.deleteAll();
+		
+		List<Usuario> users = new ArrayList<Usuario>();
+		
+		Usuario user = new Usuario();
+		
+		user.setUsername("nico@nico.com");
+		user.setPassword("casheja");
+		user.setNombre("Nicolás");
+		user.setApellido("Osowski");
+		user.setRol("ADMIN");
+		
+		users.add(user);
+		
+		user = new Usuario();
+		user.setUsername("cuki@cuki.com");
+		user.setPassword("casheja");
+		user.setNombre("Ariel");
+		user.setApellido("Cukierkorm");
+		user.setRol("SELLER");
+		users.add(user);
+		
+		this.usersRepository.save(users);
 		
 		List<Product> products = new ArrayList<Product>();
 		

@@ -6,10 +6,10 @@ public class Cellar {
 	private String location;
 	private String description;
 	
-	public Cellar(String name, String location, String desc) {
+	public Cellar(String name, String location, String description) {
 		this.name = name;
 		this.location = location;
-		this.description = desc;
+		this.description = description;
 	}
 
 	public String getName() {

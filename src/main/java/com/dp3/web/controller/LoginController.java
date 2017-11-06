@@ -12,8 +12,12 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(HttpServletResponse response) {
-			ModelAndView model = new ModelAndView("index");
-		response.setContentType("application/javascript");
+			ModelAndView model = new ModelAndView("login");
 		return model;
+	}
+	
+	@RequestMapping(value = "/start", method = RequestMethod.GET)
+	public ModelAndView start(HttpServletResponse response) {
+		return new ModelAndView("start");
 	}
 }

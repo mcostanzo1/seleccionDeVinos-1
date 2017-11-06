@@ -4,20 +4,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
-@Table(name = "usuario")
+@Document(collection = "users")
 public class Usuario implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	private String username;
+	private String password;
+	private String rol;
+	private String nombre;
+	private String apellido;
 
 	public String getUsername() {
 		return username;
@@ -38,22 +41,6 @@ public class Usuario implements UserDetails {
 	public String getApellido() {
 		return apellido;
 	}
-
-	@Id
-	@Column(name = "username")
-	private String username;
-	
-	@Column(name = "password")
-	private String password;
-	
-	@Column(name = "rol")
-	private String rol;
-
-	@Column(name = "nombre")
-	private String nombre;
-	
-	@Column(name = "apellido")
-	private String apellido;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -82,4 +69,23 @@ public class Usuario implements UserDetails {
 		return true;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
 }
