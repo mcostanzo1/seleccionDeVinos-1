@@ -10,43 +10,37 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.dp3.config.DatabaseConfig;
+import com.dp3.config.MongoDBConfig;
 
 @Configuration
 @EnableWebSecurity
-@Import(value = DatabaseConfig.class)
+@Import(value = MongoDBConfig.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-			.antMatchers("/resources/**").permitAll() 
-			.anyRequest().authenticated().and()
+			.antMatchers("/").permitAll()
+			.antMatchers("/start/**").authenticated()
+			.antMatchers("/admin/**").hasRole("ADMIN").and()
 		.formLogin()
 			.loginPage("/login").failureUrl("/login?error").
 			loginProcessingUrl("/loginFormAction").
 			usernameParameter("username").
 			passwordParameter("password").
-			defaultSuccessUrl("/calendar", true).
+			defaultSuccessUrl("/start", true).
 			permitAll().
 		and()
 			.logout().permitAll();
 	}
-
-//	@Autowired
-//	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication().withUser("depe").password("depe").roles("ADMIN");
-//		auth.inMemoryAuthentication().withUser("cami").password("cami").roles("USER");
-//	}
-
 }
