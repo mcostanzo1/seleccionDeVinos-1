@@ -10,20 +10,33 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public abstract class Product {
 	
 	@Id
+<<<<<<< HEAD
+	protected BigInteger productId;
+=======
 	protected BigInteger productCode;
+>>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 	protected String name;
 	protected int quantityOnBox;
 	protected int quantityOnStockBox;
 	protected int quantityOnStockInd;
+<<<<<<< HEAD
+	protected String variety;
+=======
 	protected String clasify;
+>>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 	protected BigDecimal price;
 	
-	public String getClasify() {
-		return clasify;
+	public String getVariety() {
+		return variety;
 	}
 	
+<<<<<<< HEAD
+	public BigInteger getProductId() {
+		return productId;
+=======
 	public BigInteger getProductCode() {
 		return productCode;
+>>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 	}
 	
 	public String getName() {
