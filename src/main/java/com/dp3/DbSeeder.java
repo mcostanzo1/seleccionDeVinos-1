@@ -41,6 +41,8 @@ public class DbSeeder implements CommandLineRunner {
 		user.setRol("ADMIN");
 		
 		users.add(user);
+<<<<<<< HEAD
+=======
 		
 		user = new Usuario();
 		user.setUsername("cuki@cuki.com");
@@ -53,7 +55,20 @@ public class DbSeeder implements CommandLineRunner {
 		this.usersRepository.save(users);
 		
 		List<Product> products = new ArrayList<Product>();
+>>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 		
+		user = new Usuario();
+		user.setUsername("cuki@cuki.com");
+		user.setPassword("casheja");
+		user.setNombre("Ariel");
+		user.setApellido("Cukierkorm");
+		user.setRol("SELLER");
+		users.add(user);
+		
+		this.usersRepository.save(users);
+		
+		List<Product> products = new ArrayList<Product>();
+		/*
 		Cellar cellar = new Cellar("Catena Zapata", "Lujan de Cuyo, Mendoza", 
 				"Fundada en 1902, Bodega Catena Zapata es reconocida por su rol pionero en haber hecho resurgir la variedad Malbec y haber descubierto los terroirs de altura extrema al pie de los Andes.");
 		products.add(new Wine(cellar , "Catena Alta", 6, "Malbec"));
@@ -66,7 +81,7 @@ public class DbSeeder implements CommandLineRunner {
 		
 		products.add(new Wine(cellar, "López", 6, "Malbec"));
 		products.add(new Wine(cellar, "López", 9, "Chardonnay"));
-		
+		*/
 		this.productRepository.save(products);
 	}
 }

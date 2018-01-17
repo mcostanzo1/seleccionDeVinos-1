@@ -18,7 +18,11 @@ public class ProductCreator {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
+<<<<<<< HEAD
+	public Stock createProduct() {
+=======
 	public Product createProduct() {
+>>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 		return null;
 	}
 
