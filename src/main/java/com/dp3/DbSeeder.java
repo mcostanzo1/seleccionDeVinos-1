@@ -34,6 +34,11 @@ public class DbSeeder implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
+        usersRepository.deleteAll();
+        cellarRepository.deleteAll();
+        wineRepository.deleteAll();
+        stockRepository.deleteAll();
+
 		List<Usuario> users = new ArrayList<>();
 		
 		Usuario user = new Usuario();
