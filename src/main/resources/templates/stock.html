@@ -4,79 +4,125 @@
 <head>
     <title>Products</title>
     <meta charset="utf-8" />
+    <script src="https://use.fontawesome.com/33078ec2bc.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"/>
 </head>
 <body>
         <!--Nav-->
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="/stock/all" role="button" aria-haspopup="true" aria-expanded="false">Stock</a>
-                <div class="dropdown-menu">
-                    <button class="dropdown-item"  href="/stock/all">Todos</button>
-                    <button class="dropdown-item" data-toggle="modal" data-target="#newWine">Vinos</button>
-                    <a class="dropdown-item disabled" href="#">Cervezas</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" data-toggle="modal" data-target="#newClient">Añadir stock...</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Pedidos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/clients/all">Clientes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="/lists/all">Listas de precios</a>
-            </li>
-        </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">selecciondevinos.com</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/start">Stock</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clients/all">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/lists/all">Listas de precios</a>
+                    </li>
+                    <form class="form-inline">
+                        <button class="btn btn-outline-success" href="/orders/new" type="button">NUEVO PEDIDO</button>
+                    </form>
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+
+
+
 
 
         <div class="container">
-            <h1>Stock</h1>
+            <p> </p>
+            <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Mi stock</h1>
             <!-- Trigger the modal with a button -->
 
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newCellar">Nueva Bodega</button>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newWine">Nuevo Vino</button>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newStock">Agregar Stock</button>
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newCellar">Nueva Bodega</button>
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newWine">Nuevo Vino</button>
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newStock">Agregar Stock</button>
 
-
+            <p> </p>
 
             <!-- Stock Table -->
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Código de Stock</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cantidad de cajas</th>
-                    <th scope="col">Precio unitario</th>
+                    <th scope="col">Código de Stock <span><i class="fa fa-sort" aria-hidden="true"></i></span> </th>
+                    <th scope="col">Producto <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Cantidad de cajas <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Precio unitario <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="stock : ${stockList}">
+                    <tr th:each="stock : ${stockList}" id="id01">
                         <td th:text="${stock.stockCode}"></td>
                         <td th:text="${stock.productName}"></td>
                         <td th:text="${stock.quantityOnStockBox}"></td>
                         <td th:text="${stock.price}"></td>
                         <td>
-                            <a class="btn btn-info" th:attr="id=${stock.stockCode}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
+                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.stockCode}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
                                 Editar
-                            </a>
+                            </button>
                             <script>
                                 function myFunction(stockCode) {
                                     var elems= document.getElementById(stockCode);
                                     var body = document.getElementById('editionDetails');
                                     body.innerHTML = '' +
                                         '<form id="editionForm" name="editionForm" method="post" action="/stock/delete/'+ elems.id + '">'+
-                                        '<button type="submit" id="btn-delete" class="btn btn-danger" />Borrar' +
+                                        '<button type="submit" id="btn-delete" class="btn btn-outline-danger" />Borrar' +
                                         '</form>';
                                 };
                             </script>
                         </td>
+                        <script>
+                            function sortListDir() {
+                                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+                                list = document.getElementById("id01");
+                                switching = true;
+                                dir = "asc";
+                                while (switching) {
+                                    switching = false;
+                                    b = list.getElementsByTagName("TR");
+                                    for (i = 0; i < (b.length - 1); i++) {
+                                        shouldSwitch = false;
+                                        if (dir == "asc") {
+                                            if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                                                shouldSwitch= true;
+                                                break;
+                                            }
+                                        } else if (dir == "desc") {
+                                            if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                                                shouldSwitch= true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (shouldSwitch) {
+                                        b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                                        switching = true;
+                                        switchcount ++;
+                                    } else {
+
+                                        if (switchcount == 0 && dir == "asc") {
+                                            dir = "desc";
+                                            switching = true;
+                                        }
+                                    }
+                                }
+                            }
+                        </script>
                 </tbody>
             </table>
 
@@ -126,7 +172,7 @@
                                         </select><br />
                                     <label for="price">Precio unitario</label>
                                     <input type="number" class="form-control" placeholder="1,2,45,45.45...." id="price" name="price"/><br />
-                                    <button type="submit" id="stockSubmit"  class="btn btn-primary" >Guardar</button>
+                                    <button type="submit" id="stockSubmit"  class="btn btn-outline-info" >Guardar</button>
                                 </div>
                             </form>
                         </div>
