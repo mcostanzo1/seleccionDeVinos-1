@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.dp3.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -57,23 +56,3 @@ public class Wine extends Stock {
 		this.cellarName = cellarName;
 	}
 }
-=======
-package com.dp3.domain;
-
-public class Wine extends Product {
-	
-	private Cellar cellar;
-	
-	public Wine(Cellar cellar, String name, int quantityOnBox, String clasify) {
-//		super.productCode = getNextSequenceId();
-		this.cellar = cellar;
-		super.name = name;
-		super.quantityOnBox = quantityOnBox;
-		super.clasify = clasify;
-	}
-	
-	public Cellar getCellar() {
-		return cellar;
-	}
-}
->>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185

@@ -44,8 +44,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		and()
 			.logout().permitAll();
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185

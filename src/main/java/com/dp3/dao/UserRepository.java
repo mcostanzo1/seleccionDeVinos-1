@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.dp3.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -10,16 +9,3 @@ import com.dp3.domain.Usuario;
 public interface UserRepository extends MongoRepository<Usuario, String> {
     public Usuario findByUsername(String username);
 }
-=======
-package com.dp3.dao;
-
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
-
-import com.dp3.domain.Usuario;
-
-@Repository
-public interface UserRepository extends MongoRepository<Usuario, String> {
-    public Usuario findByUsername(String username);
-}
->>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185

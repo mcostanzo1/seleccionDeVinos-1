@@ -10,65 +10,77 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public abstract class Product {
 	
 	@Id
-<<<<<<< HEAD
 	protected BigInteger productId;
-=======
 	protected BigInteger productCode;
->>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 	protected String name;
-	protected int quantityOnBox;
 	protected int quantityOnStockBox;
 	protected int quantityOnStockInd;
-<<<<<<< HEAD
 	protected String variety;
-=======
 	protected String clasify;
->>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 	protected BigDecimal price;
-	
-	public String getVariety() {
-		return variety;
-	}
-	
-<<<<<<< HEAD
+
+
 	public BigInteger getProductId() {
 		return productId;
-=======
+	}
+
+	public void setProductId(BigInteger productId) {
+		this.productId = productId;
+	}
+
 	public BigInteger getProductCode() {
 		return productCode;
->>>>>>> c885f0c2656b8ce59f835f24e12ac74303215185
 	}
-	
+
+	public void setProductCode(BigInteger productCode) {
+		this.productCode = productCode;
+	}
+
 	public String getName() {
 		return name;
 	}
-	
-	public int getQuantityOnBox() {
-		return quantityOnBox;
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getQuantityOnStockBox() {
 		return quantityOnStockBox;
 	}
 
+	public void setQuantityOnStockBox(int quantityOnStockBox) {
+		this.quantityOnStockBox = quantityOnStockBox;
+	}
+
 	public int getQuantityOnStockInd() {
 		return quantityOnStockInd;
+	}
+
+	public void setQuantityOnStockInd(int quantityOnStockInd) {
+		this.quantityOnStockInd = quantityOnStockInd;
+	}
+
+	public String getVariety() {
+		return variety;
+	}
+
+	public void setVariety(String variety) {
+		this.variety = variety;
+	}
+
+	public String getClasify() {
+		return clasify;
+	}
+
+	public void setClasify(String clasify) {
+		this.clasify = clasify;
 	}
 
 	public BigDecimal getPrice() {
 		return price;
 	}
-	
-//	public void setQuantityOnStockBox(int quantityOnStockBox) {
-//		this.quantityOnStockBox = quantityOnStockBox;
-//	}
-//	
-//	public void setQuantityOnStockInd(int quantityOnStockInd) {
-//		this.quantityOnStockInd = quantityOnStockInd;
-//	}
-//	
-//	public void setPrice(BigDecimal price) {
-//		this.price = price;
-//	}
 
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 }

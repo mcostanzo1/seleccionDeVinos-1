@@ -42,8 +42,6 @@ public class StockController {
 		return stock;
 	}
 
-
-
 	@PostMapping("/createStock")
 	public ModelAndView createWine(Model model, Stock stock){
 		model.addAttribute("products", wineRepository.findAll());
