@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.authorizeRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/start/**").authenticated()
+			.antMatchers("/stock/**").authenticated()
 			.antMatchers("/admin/**").hasRole("ADMIN").and()
 		.formLogin()
 			.loginPage("/login").failureUrl("/login?error").

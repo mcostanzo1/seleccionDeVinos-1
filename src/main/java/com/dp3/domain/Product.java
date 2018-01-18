@@ -13,12 +13,9 @@ public abstract class Product {
 	protected BigInteger productId;
 	protected BigInteger productCode;
 	protected String name;
-	protected int quantityOnStockBox;
+	protected int quantityOnBox;
 	protected int quantityOnStockInd;
-	protected String variety;
-	protected String clasify;
 	protected BigDecimal price;
-
 
 	public BigInteger getProductId() {
 		return productId;
@@ -36,44 +33,20 @@ public abstract class Product {
 		this.productCode = productCode;
 	}
 
-	public String getName() {
-		return name;
-	}
+    public int getQuantityOnBox() {
+        return quantityOnBox;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setQuantityOnBox(int quantityOnBox) {
+        this.quantityOnBox = quantityOnBox;
+    }
 
-	public int getQuantityOnStockBox() {
-		return quantityOnStockBox;
-	}
-
-	public void setQuantityOnStockBox(int quantityOnStockBox) {
-		this.quantityOnStockBox = quantityOnStockBox;
-	}
-
-	public int getQuantityOnStockInd() {
+    public int getQuantityOnStockInd() {
 		return quantityOnStockInd;
 	}
 
 	public void setQuantityOnStockInd(int quantityOnStockInd) {
 		this.quantityOnStockInd = quantityOnStockInd;
-	}
-
-	public String getVariety() {
-		return variety;
-	}
-
-	public void setVariety(String variety) {
-		this.variety = variety;
-	}
-
-	public String getClasify() {
-		return clasify;
-	}
-
-	public void setClasify(String clasify) {
-		this.clasify = clasify;
 	}
 
 	public BigDecimal getPrice() {
@@ -83,4 +56,12 @@ public abstract class Product {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -38,9 +38,9 @@ public class WineController {
         return new ModelAndView("redirect:/stock/all");
     }
 
-    @GetMapping(value = "/wine/{wineName}")
-    public ResponseEntity<Wine> getWineByWineName(@PathVariable("wineName") String wineName){
-        Wine wine = wineRepository.findOne(wineName);
+    @GetMapping(value = "/wine/{id}")
+    public ResponseEntity<Wine> getWineByWineName(@PathVariable("id") String id){
+        Wine wine = wineRepository.findOne(id);
         if(wine == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
@@ -48,24 +48,23 @@ public class WineController {
         }
     }
 
-    @PutMapping(value = "/wine/{wineName}")
-    public ResponseEntity<Wine> updateWine(@PathVariable("wineName") String wineName,
+    @PutMapping(value = "/wine/{id}")
+    public ResponseEntity<Wine> updateWine(@PathVariable("id") String id,
                                                 @RequestBody Wine wine){
-        Wine wineData = wineRepository.findOne(wineName);
+        Wine wineData = wineRepository.findOne(id);
         if(wineData == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        wineData.setWineName(wine.getWineName());
-        wineData.setClasify(wine.getClasify());
+        wineData.setName(wine.getName());
+        wineData.setVariety(wine.getVariety());
         wineData.setQuantityOnBox(wine.getQuantityOnBox());
-        wineData.setQuantityOnStockBox(wine.getQuantityOnStockBox());
         Wine updateWine = wineRepository.save(wineData);
         return new ResponseEntity<>(updateWine,HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/wine/{wineName}")
-    public void deleteWine(@PathVariable("wineName") String wineName){
-        wineRepository.delete(wineName);
+    @DeleteMapping(value = "/wine/{id}")
+    public void deleteWine(@PathVariable("id") String id){
+        wineRepository.delete(id);
     }
 
 }

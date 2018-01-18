@@ -1,40 +1,44 @@
 package com.dp3.domain;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import org.hibernate.jpamodelgen.xml.jaxb.GenerationType;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Document(collection = "stock")
 public class Stock {
-	
-	@Id
-	@GeneratedValue(strategy = javax.persistence.GenerationType.AUTO)
-	protected String stockCode;
-	protected String productName;
-	protected String quantityOnStockBox;
-	protected String price;
+
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	protected String stockId;
+    protected Product product;
+    protected String quantityOnStockBox;
+    protected BigDecimal price;
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
 	public Stock() {
+
 	}
 
-	public String getStockCode() {
-		return stockCode;
-	}
+    public String getStockId() {
+        return stockId;
+    }
 
-	public String getProductName() {
-		return productName;
-	}
+    public void setStockId(String stockId) {
+        this.stockId = stockId;
+    }
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public String getQuantityOnStockBox() {
+    public String getQuantityOnStockBox() {
 		return quantityOnStockBox;
 	}
 
@@ -42,11 +46,11 @@ public class Stock {
 		this.quantityOnStockBox = quantityOnStockBox;
 	}
 
-	public String getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 }

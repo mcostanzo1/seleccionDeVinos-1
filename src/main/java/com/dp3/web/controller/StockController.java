@@ -33,8 +33,13 @@ public class StockController {
 	@Autowired
 	private WineRepository wineRepository;
 
+    @GetMapping("/")
+    public ModelAndView stock(Model model){
+        return stockAll(model);
+    }
+
 	@GetMapping("/all")
-	public ModelAndView stock(Model model){
+	public ModelAndView stockAll(Model model){
 		ModelAndView stock = new ModelAndView("stock");
 		model.addAttribute("wines", wineRepository.findAll());
 		model.addAttribute("stockList",stockRepository.findAll());
@@ -51,9 +56,9 @@ public class StockController {
 		return new ModelAndView("redirect:/stock/all");
 	}
 
-	@GetMapping(value = "/{stockCode}")
-	public ResponseEntity<Stock> getStockByStockCode(@PathVariable("stockCode") String stockCode){
-		Stock stock = stockRepository.findOne(stockCode);
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Stock> getStockByStockCode(@PathVariable("id") String id){
+		Stock stock = stockRepository.findOne(id);
 		if(stock == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else{
@@ -61,26 +66,25 @@ public class StockController {
 		}
 	}
 
-	@PutMapping(value = "/edit/{stockCode}")
-	public ResponseEntity<Stock> updateStock(@PathVariable("StockCode") String stockCode,
+	@PutMapping(value = "/edit/{id}")
+	public ResponseEntity<Stock> updateStock(@PathVariable("id") String id,
 											 @Valid @RequestBody Stock stock){
-		Stock stockData = stockRepository.findOne(stockCode);
+		Stock stockData = stockRepository.findOne(id);
 		if(stockData == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		stockData.setProductName(stock.getProductName());
 		stockData.setPrice(stock.getPrice());
 		stockData.setQuantityOnStockBox(stock.getQuantityOnStockBox());
 		Stock updateStock = stockRepository.save(stockData);
 		return new ResponseEntity<>(updateStock,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/delete/{stockCode}")
-	public ModelAndView deleteStock(Model model,@PathVariable("stockCode") String stockCode){
+	@RequestMapping(value = "/delete/{id}")
+	public ModelAndView deleteStock(Model model,@PathVariable("id") String id){
 		model.addAttribute("products", wineRepository.findAll());
 		model.addAttribute("wines", wineRepository.findAll());
 		model.addAttribute("cellars", cellarRepository.findAll());
-		stockRepository.delete(stockCode);
+		stockRepository.delete(id);
 		return new ModelAndView("redirect:/stock/all");
 	}
 

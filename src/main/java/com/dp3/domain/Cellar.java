@@ -12,26 +12,23 @@ import javax.persistence.GenerationType;
 public class Cellar {
 
 	@Id
-	@JsonProperty()
-	@GeneratedValue(strategy = javax.persistence.GenerationType.AUTO)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String cellarId;
 	private String cellarName;
 	private String location;
-
-
-
 	private String description;
 
 	public Cellar() {
-		super();
 	}
 
-
-	public Cellar(@JsonProperty("id")String id,  @JsonProperty("cellarName") String cellarName, @JsonProperty("location")String location, @JsonProperty("description") String description) {
+	public Cellar(@JsonProperty("id") String id,
+				  @JsonProperty("cellarName") String cellarName,
+				  @JsonProperty("location") String location,
+				  @JsonProperty("description") String description) {
+		this.cellarId = id;
 		this.cellarName = cellarName;
 		this.location = location;
 		this.description = description;
-		this.id = id;
 	}
 
 	public void setCellarName(String cellarName) {
@@ -46,14 +43,6 @@ public class Cellar {
 		this.description = description;
 	}
 
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getCellarName() {
 		return cellarName;
 	}
@@ -65,7 +54,12 @@ public class Cellar {
 	public String getDescription() {
 		return description;
 	}
-	
-	
 
+    public String getCellarId() {
+        return cellarId;
+    }
+
+    public void setCellarId(String cellarId) {
+        this.cellarId = cellarId;
+    }
 }

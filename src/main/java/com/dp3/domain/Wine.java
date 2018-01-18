@@ -2,57 +2,43 @@ package com.dp3.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @Document(collection = "wines")
-public class Wine extends Stock {
+public class Wine extends Product {
 
-
-	private String wineName;
-	private int quantityOnBox;
-	private String clasify;
-	private String cellarName;
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String wineId;
+	private String variety;
+	private String cellarId;
 
 	public Wine() {
+
 	}
 
-
-	public Wine(String wineName, int quantityOnBox, String clasify, String cellarName) {
-		this.wineName = wineName;
-		this.quantityOnBox = quantityOnBox;
-		this.clasify = clasify;
-		this.cellarName = cellarName;
+	public Wine(String wineName, int quantityOnBox, String variety, String cellarId) {
+	    super.name = wineName;
+	    super.quantityOnBox = quantityOnBox;
+		this.variety = variety;
+		this.cellarId = cellarId;
 	}
 
-
-	public String getWineName() {
-		return wineName;
+	public String getVariety() {
+		return variety;
 	}
 
-	public void setWineName(String wineName) {
-		this.wineName = wineName;
+	public void setVariety(String variety) {
+		this.variety = variety;
 	}
 
-	public int getQuantityOnBox() {
-		return quantityOnBox;
-	}
+    public String getCellarId() {
+        return cellarId;
+    }
 
-	public void setQuantityOnBox(int quantityOnBox) {
-		this.quantityOnBox = quantityOnBox;
-	}
-
-	public String getClasify() {
-		return clasify;
-	}
-
-	public void setClasify(String clasify) {
-		this.clasify = clasify;
-	}
-
-	public String getCellarName() {
-		return cellarName;
-	}
-
-	public void setCellar(String cellarName) {
-		this.cellarName = cellarName;
-	}
+    public void setCellarId(String cellarId) {
+        this.cellarId = cellarId;
+    }
 }

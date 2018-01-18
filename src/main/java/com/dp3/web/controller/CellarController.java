@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/cellars")
 @CrossOrigin("*")
@@ -35,9 +34,9 @@ public class CellarController {
         return new ModelAndView("redirect:/stock/all");
     }
 
-    @GetMapping(value = "/cellar/{cellarName}")
-    public ResponseEntity<Cellar> getCellarByCellarName(@PathVariable("cellarName") String cellarName){
-        Cellar cellar = cellarRepository.findOne(cellarName);
+    @GetMapping(value = "/cellar/{id}")
+    public ResponseEntity<Cellar> getCellarByCellarName(@PathVariable("id") String id){
+        Cellar cellar = cellarRepository.findOne(id);
         if(cellar == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
@@ -45,10 +44,10 @@ public class CellarController {
         }
     }
 
-    @PutMapping(value = "/cellar/{cellarName}")
-    public ResponseEntity<Cellar> updateCellar(@PathVariable("cellarName") String cellarName,
+    @PutMapping(value = "/cellar/{id}")
+    public ResponseEntity<Cellar> updateCellar(@PathVariable("id") String id,
                                                @Valid @RequestBody Cellar cellar){
-        Cellar cellarData = cellarRepository.findOne(cellarName);
+        Cellar cellarData = cellarRepository.findOne(id);
         if(cellarData == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -59,9 +58,9 @@ public class CellarController {
         return new ResponseEntity<>(updateCellar,HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/cellar/{cellarName}")
-    public void deleteCellar(@PathVariable("cellarName") String cellarName){
-        cellarRepository.delete(cellarName);
+    @DeleteMapping(value = "/cellar/{id}")
+    public void deleteCellar(@PathVariable("id") String id){
+        cellarRepository.delete(id);
     }
 
 }
