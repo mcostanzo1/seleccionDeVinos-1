@@ -1,9 +1,13 @@
 package com.dp3.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
@@ -16,7 +20,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		}
         registry.addResourceHandler("/favicon.ico");
 	}
-
 
 //	@Bean(name = "templateResolver")
 //	public ServletContextTemplateResolver getTemplateResolver() {

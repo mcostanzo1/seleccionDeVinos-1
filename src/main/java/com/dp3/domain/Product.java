@@ -1,17 +1,18 @@
 package com.dp3.domain;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorColumn(name = "PRODUCT_TYPE")
 public abstract class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer productId;
-
-    @Column
-    protected ProductType productType;
 
     @Column(nullable = false)
     protected String name;
@@ -22,8 +23,12 @@ public abstract class Product {
     @Column(nullable = false)
     protected int quantityOnStock;
 
-    /*@OneToMany
-    protected List<ProductPrice> price;*/
+    @OneToMany
+    @Cascade(value= org.hibernate.annotations.CascadeType.ALL)
+    protected List<Price> prices;
+
+    @Version
+    private int version;
 
     public Integer getProductId() {
         return productId;
@@ -31,14 +36,6 @@ public abstract class Product {
 
     public void setProductId(Integer productId) {
         this.productId = productId;
-    }
-
-    public ProductType getProductType() {
-        return productType;
-    }
-
-    public void setProductType(ProductType productType) {
-        this.productType = productType;
     }
 
     public String getName() {

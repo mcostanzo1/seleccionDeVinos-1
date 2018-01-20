@@ -1,11 +1,14 @@
 package com.dp3;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dp3.dao.CellarRepository;
 import com.dp3.dao.WineRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.dp3.dao.UserRepository;
@@ -19,6 +22,8 @@ public class DbSeeder implements CommandLineRunner {
 	private UserRepository usersRepository;
     private CellarRepository cellarRepository;
     private WineRepository wineRepository;
+    @Autowired
+    private ApplicationContext context;
 
 	public DbSeeder(UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository) {
 		this.usersRepository = usersRepository;
@@ -41,7 +46,7 @@ public class DbSeeder implements CommandLineRunner {
 		user.setPassword("casheja");
 		user.setFirstname("Nicolás");
 		user.setLastname("Osowski");
-		user.setRol("ADMIN");
+		user.setRol("ACTUATOR");
 		
 		users.add(user);
 		
@@ -70,45 +75,14 @@ public class DbSeeder implements CommandLineRunner {
 		cellarList.add(cel);
 
 		cellarRepository.save(cellarList);
-        cellarList = cellarRepository.findAll();
+
 		List<Wine> wineList = new ArrayList<>();
-		wineList.add(new Wine("Toro Viejo", 12, "Malbec", cellarList.get(0)));
-        wineList.add(new Wine("Toro Viejo", 9, "Cabernet", cellarList.get(0)));
-        wineList.add(new Wine("Lopez", 6, "Chardonnay", cellarList.get(0)));
-        wineList.add(new Wine("Termidor", 6, "Syrah", cellarList.get(0)));
-        wineList.add(new Wine("Uvita",12 , "Malbec", cellarList.get(0)));
+		wineList.add(new Wine("Toro Viejo", 12, "Malbec", cellarList.get(0), new BigDecimal("150")));
+        wineList.add(new Wine("Toro Viejo", 9, "Cabernet", cellarList.get(0), new BigDecimal("179.50")));
+        wineList.add(new Wine("Lopez", 6, "Chardonnay", cellarList.get(0), new BigDecimal("60.75")));
+        wineList.add(new Wine("Termidor", 6, "Syrah", cellarList.get(1), new BigDecimal("88.25")));
+        wineList.add(new Wine("Uvita",12 , "Malbec", cellarList.get(1), new BigDecimal("400")));
 
 		wineRepository.save(wineList);
-        wineList = wineRepository.findAll();
-        
-        /*
-        List<Product> products = new ArrayList<>();
-		Wine stock = new Stock();
-		stock.setProduct(wineList.get(0));
-		stock.setPrice(new BigDecimal(150));
-		products.add(stock);
-
-		stock = new Stock();
-        stock.setProduct(wineList.get(1));
-        stock.setPrice(new BigDecimal(250));
-        products.add(stock);
-
-        stock = new Stock();
-        stock.setProduct(wineList.get(2));
-        stock.setPrice(new BigDecimal(59));
-        products.add(stock);
-
-        stock = new Stock();
-        stock.setProduct(wineList.get(3));
-        stock.setPrice(new BigDecimal(200));
-        products.add(stock);
-
-        stock = new Stock();
-        stock.setProduct(wineList.get(4));
-        stock.setPrice(new BigDecimal(95));
-        products.add(stock);
-
-		this.stockRepository.save(products);
-		*/
 	}
 }

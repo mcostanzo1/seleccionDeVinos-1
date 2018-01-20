@@ -1,8 +1,12 @@
 package com.dp3.domain;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 
 @Entity
+//@DiscriminatorValue("WINE")
 public class Wine extends Product {
 
     @ManyToOne
@@ -18,12 +22,14 @@ public class Wine extends Product {
 
 	}
 
-	public Wine(String wineName, int quantityPerBox, String variety, Cellar cellar) {
+	public Wine(String wineName, int quantityPerBox, String variety, Cellar cellar, BigDecimal price) {
         super.name = wineName;
         super.quantityPerBox = quantityPerBox;
         super.quantityOnStock = 0;
         this.variety = variety;
         this.cellar = cellar;
+        super.prices = new ArrayList<Price>();
+        prices.add(new Price(this, new Date(), price));
     }
 
     public Cellar getCellar() {
