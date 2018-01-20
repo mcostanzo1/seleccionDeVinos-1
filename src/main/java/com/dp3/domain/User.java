@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Document(collection = "users")
-public class Usuario implements UserDetails {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class User implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -19,8 +20,8 @@ public class Usuario implements UserDetails {
 	private String username;
 	private String password;
 	private String rol;
-	private String nombre;
-	private String apellido;
+	private String firstname;
+	private String lastname;
 
 	public String getUsername() {
 		return username;
@@ -34,12 +35,12 @@ public class Usuario implements UserDetails {
 		return rol;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public String getApellido() {
-		return apellido;
+	public String getLastname() {
+		return lastname;
 	}
 	
 	@Override
@@ -81,11 +82,11 @@ public class Usuario implements UserDetails {
 		this.rol = rol;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 }

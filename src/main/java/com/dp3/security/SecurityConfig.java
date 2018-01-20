@@ -3,18 +3,15 @@ package com.dp3.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.dp3.config.MongoDBConfig;
-
 @Configuration
 @EnableWebSecurity
-@Import(value = MongoDBConfig.class)
+//@Import(value = MongoDBConfig.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -33,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/stock/**").authenticated()
-			.antMatchers("/admin/**").hasRole("ADMIN").and()
+			.antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/console/**").permitAll().and()
 		.formLogin()
 			.loginPage("/login").failureUrl("/login?error").
 			loginProcessingUrl("/loginFormAction").

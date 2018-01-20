@@ -1,61 +1,45 @@
 package com.dp3.domain;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import javax.persistence.*;
+import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "products")
+@Entity
 public abstract class Product {
-	
-	@Id
-	protected BigInteger productId;
-	protected BigInteger productCode;
-	protected String name;
-	protected int quantityOnBox;
-	protected int quantityOnStockInd;
-	protected BigDecimal price;
 
-	public BigInteger getProductId() {
-		return productId;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Integer productId;
 
-	public void setProductId(BigInteger productId) {
-		this.productId = productId;
-	}
+    @Column
+    protected ProductType productType;
 
-	public BigInteger getProductCode() {
-		return productCode;
-	}
+    @Column(nullable = false)
+    protected String name;
 
-	public void setProductCode(BigInteger productCode) {
-		this.productCode = productCode;
-	}
+    @Column(nullable = false)
+    protected int quantityPerBox;
 
-    public int getQuantityOnBox() {
-        return quantityOnBox;
+    @Column(nullable = false)
+    protected int quantityOnStock;
+
+    /*@OneToMany
+    protected List<ProductPrice> price;*/
+
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setQuantityOnBox(int quantityOnBox) {
-        this.quantityOnBox = quantityOnBox;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    public int getQuantityOnStockInd() {
-		return quantityOnStockInd;
-	}
+    public ProductType getProductType() {
+        return productType;
+    }
 
-	public void setQuantityOnStockInd(int quantityOnStockInd) {
-		this.quantityOnStockInd = quantityOnStockInd;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
 
     public String getName() {
         return name;
@@ -64,4 +48,23 @@ public abstract class Product {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getQuantityPerBox() {
+        return quantityPerBox;
+    }
+
+    public void setQuantityPerBox(int quantityPerBox) {
+        this.quantityPerBox = quantityPerBox;
+    }
+
+    public int getQuantityOnStock() {
+        return quantityOnStock;
+    }
+
+    public void setQuantityOnStock(int quantityOnStock) {
+        this.quantityOnStock = quantityOnStock;
+    }
+
 }
+
+

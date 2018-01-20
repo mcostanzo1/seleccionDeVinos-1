@@ -1,12 +1,12 @@
 package com.dp3.service;
 
+import com.dp3.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dp3.dao.UserRepository;
-import com.dp3.domain.Usuario;
 
 @Service("userDetailsService")
 public class UsuarioServiceImpl implements UsuarioService {
@@ -20,23 +20,23 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Transactional(readOnly=true)
 	@Override
-	public Usuario loadUserByUsername(final String username) throws UsernameNotFoundException {
-		Usuario user = userRepository.findByUsername(username);
+	public User loadUserByUsername(final String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username);
 		return user;
 	}
 	
 //	@Transactional
 //	@Override
-//	public Usuario modificarUsuario(Usuario usuario, UsuarioDTO dto) throws UsuarioException {
-//		Usuario usuarioContexto = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//	public User modificarUsuario(User usuario, UsuarioDTO dto) throws UsuarioException {
+//		User usuarioContexto = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		if (!usuarioContexto.getUsername().equals(String.valueOf(dto.getUf()))) {
-//			throw new UsuarioException("Usuario de contexto modificado.");
+//			throw new UsuarioException("User de contexto modificado.");
 //		}
 //		
 ////		if (!usuario.getEmail().equals(dto.getEmail())) {
 ////			usuario.setEmail(dto.getEmail());
 ////		}
-////		if (!usuario.getNombre().equals(dto.getEmail2())) {
+////		if (!usuario.getFirstname().equals(dto.getEmail2())) {
 ////			usuario.setEmail2(dto.getEmail2());
 ////		}
 ////		if (dto.getPassword() != "" && dto.getPassword() != null && !usuario.getPassword().equals(dto.getPassword())) {

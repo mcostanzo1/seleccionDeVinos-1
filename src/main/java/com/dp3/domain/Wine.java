@@ -1,44 +1,52 @@
 package com.dp3.domain;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Document(collection = "wines")
+@Entity
 public class Wine extends Product {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String wineId;
+    @ManyToOne
+    private Cellar cellar;
+
+	@Column
 	private String variety;
-	private String cellarId;
+
+	@Column
+    private String description;
 
 	public Wine() {
 
 	}
 
-	public Wine(String wineName, int quantityOnBox, String variety, String cellarId) {
-	    super.name = wineName;
-	    super.quantityOnBox = quantityOnBox;
-		this.variety = variety;
-		this.cellarId = cellarId;
-	}
-
-	public String getVariety() {
-		return variety;
-	}
-
-	public void setVariety(String variety) {
-		this.variety = variety;
-	}
-
-    public String getCellarId() {
-        return cellarId;
+	public Wine(String wineName, int quantityPerBox, String variety, Cellar cellar) {
+        super.name = wineName;
+        super.quantityPerBox = quantityPerBox;
+        super.quantityOnStock = 0;
+        this.variety = variety;
+        this.cellar = cellar;
     }
 
-    public void setCellarId(String cellarId) {
-        this.cellarId = cellarId;
+    public Cellar getCellar() {
+        return cellar;
+    }
+
+    public void setCellar(Cellar cellar) {
+        this.cellar = cellar;
+    }
+
+    public String getVariety() {
+        return variety;
+    }
+
+    public void setVariety(String variety) {
+        this.variety = variety;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

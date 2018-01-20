@@ -1,14 +1,11 @@
 package com.dp3.domain;
 
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
-@Document(collection = "cellars")
+@Entity()
 public class Cellar {
 
 	@Id
@@ -16,6 +13,7 @@ public class Cellar {
 	private String cellarId;
 	private String cellarName;
 	private String location;
+	@Column(length = 4000)
 	private String description;
 
 	public Cellar() {

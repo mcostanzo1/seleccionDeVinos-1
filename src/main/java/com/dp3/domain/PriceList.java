@@ -1,19 +1,19 @@
 package com.dp3.domain;
 
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Document(collection = "clients")
+@Entity
 public class PriceList {
 
     @Id
-    @JsonProperty()
-    @GeneratedValue(strategy = javax.persistence.GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String listCode;
     private String listName;
     private String productName;
@@ -22,11 +22,13 @@ public class PriceList {
 
 
     public PriceList() {
-        super();
     }
 
-
-    public PriceList(@JsonProperty("listCode") String listCode, @JsonProperty("listName") String listName, @JsonProperty("productName") String productName, @JsonProperty("listPrice") String listPrice, @JsonProperty("listPriceFinal") String listPriceFinal) {
+    public PriceList(@JsonProperty("listCode") String listCode,
+                     @JsonProperty("listName") String listName,
+                     @JsonProperty("productName") String productName,
+                     @JsonProperty("listPrice") String listPrice,
+                     @JsonProperty("listPriceFinal") String listPriceFinal) {
         this.listCode = listCode;
         this.listName = listName;
         this.productName = productName;

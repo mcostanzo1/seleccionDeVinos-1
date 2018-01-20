@@ -57,7 +57,7 @@ public class WineController {
         }
         wineData.setName(wine.getName());
         wineData.setVariety(wine.getVariety());
-        wineData.setQuantityOnBox(wine.getQuantityOnBox());
+        wineData.setQuantityPerBox(wine.getQuantityPerBox());
         Wine updateWine = wineRepository.save(wineData);
         return new ResponseEntity<>(updateWine,HttpStatus.OK);
     }

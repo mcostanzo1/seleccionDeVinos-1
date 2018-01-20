@@ -1,24 +1,15 @@
 package com.dp3.web.controller;
 
-import com.dp3.dao.CellarRepository;
 import com.dp3.dao.ListRepository;
-import com.dp3.dao.StockRepository;
-import com.dp3.dao.WineRepository;
-import com.dp3.domain.Cellar;
 import com.dp3.domain.PriceList;
-import com.dp3.domain.Stock;
-import com.dp3.domain.Wine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
@@ -27,16 +18,12 @@ import java.util.List;
 public class PriceListController {
 
     @Autowired
-    private StockRepository stockRepository;
-
-    @Autowired
     private ListRepository listRepository;
 
     @GetMapping("/all")
     public ModelAndView stock(Model model){
         ModelAndView list = new ModelAndView("pricelist");
         model.addAttribute("lists", listRepository.findAll());
-        model.addAttribute("stockList",stockRepository.findAll());
         return list;
     }
 
@@ -44,7 +31,6 @@ public class PriceListController {
 
     @PostMapping("/createList")
     public ModelAndView createWine(Model model, PriceList priceList){
-        model.addAttribute("stockList", stockRepository.findAll());
         model.addAttribute("lists", listRepository.findAll());
         listRepository.save(priceList);
         return new ModelAndView("redirect:/lists/all");

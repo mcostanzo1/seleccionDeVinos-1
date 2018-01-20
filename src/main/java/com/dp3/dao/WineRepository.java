@@ -1,10 +1,10 @@
 package com.dp3.dao;
 
 import com.dp3.domain.Wine;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WineRepository extends MongoRepository<Wine, String> {
+public interface WineRepository extends JpaRepository<Wine, String> {
 
 }

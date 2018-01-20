@@ -8,7 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.dp3.domain.Usuario;
+import com.dp3.domain.User;
 import com.dp3.service.UsuarioService;
 
 @Component("authenticationProvider")
@@ -21,7 +21,7 @@ public class CustomUserAuthenticationProvider extends AbstractUserDetailsAuthent
 	protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken arg1)
 			throws AuthenticationException {
 		System.out.println("> retrieveUser: Primer parametro: "+username+" Segundo parámetro: "+arg1);
-		Usuario user = (Usuario) this.usuarioService.loadUserByUsername(username);
+		User user = (User) this.usuarioService.loadUserByUsername(username);
 		System.out.println("< retrieveUser");
 		return user;
 	}

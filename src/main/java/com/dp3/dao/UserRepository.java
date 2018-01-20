@@ -1,11 +1,10 @@
 package com.dp3.dao;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.dp3.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.dp3.domain.Usuario;
-
 @Repository
-public interface UserRepository extends MongoRepository<Usuario, String> {
-    public Usuario findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, String> {
+    User findByUsername(String username);
 }

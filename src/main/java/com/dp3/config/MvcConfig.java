@@ -16,7 +16,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		}
         registry.addResourceHandler("/favicon.ico");
 	}
-	
+
+
 //	@Bean(name = "templateResolver")
 //	public ServletContextTemplateResolver getTemplateResolver() {
 //		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();

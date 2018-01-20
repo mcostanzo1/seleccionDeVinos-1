@@ -1,19 +1,16 @@
 package com.dp3;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dp3.dao.CellarRepository;
 import com.dp3.dao.WineRepository;
-import com.dp3.domain.Stock;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.dp3.dao.StockRepository;
 import com.dp3.dao.UserRepository;
 import com.dp3.domain.Cellar;
-import com.dp3.domain.Usuario;
+import com.dp3.domain.User;
 import com.dp3.domain.Wine;
 
 @Component
@@ -22,13 +19,11 @@ public class DbSeeder implements CommandLineRunner {
 	private UserRepository usersRepository;
     private CellarRepository cellarRepository;
     private WineRepository wineRepository;
-    private StockRepository stockRepository;
 
-	public DbSeeder(StockRepository stockRepository, UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository) {
+	public DbSeeder(UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository) {
 		this.usersRepository = usersRepository;
         this.cellarRepository = cellarRepository;
         this.wineRepository = wineRepository;
-        this.stockRepository = stockRepository;
     }
 	
 	@Override
@@ -37,25 +32,24 @@ public class DbSeeder implements CommandLineRunner {
         usersRepository.deleteAll();
         cellarRepository.deleteAll();
         wineRepository.deleteAll();
-        stockRepository.deleteAll();
 
-		List<Usuario> users = new ArrayList<>();
+		List<User> users = new ArrayList<>();
 		
-		Usuario user = new Usuario();
+		User user = new User();
 		
 		user.setUsername("nico@nico.com");
 		user.setPassword("casheja");
-		user.setNombre("Nicolás");
-		user.setApellido("Osowski");
+		user.setFirstname("Nicolás");
+		user.setLastname("Osowski");
 		user.setRol("ADMIN");
 		
 		users.add(user);
 		
-		user = new Usuario();
+		user = new User();
 		user.setUsername("cuki@cuki.com");
 		user.setPassword("casheja");
-		user.setNombre("Ariel");
-		user.setApellido("Cukierkorm");
+		user.setFirstname("Ariel");
+		user.setLastname("Cukierkorm");
 		user.setRol("SELLER");
 		users.add(user);
 		
@@ -78,41 +72,43 @@ public class DbSeeder implements CommandLineRunner {
 		cellarRepository.save(cellarList);
         cellarList = cellarRepository.findAll();
 		List<Wine> wineList = new ArrayList<>();
-		wineList.add(new Wine("Toro Viejo", 12, "Malbec", cellarList.get(0).getCellarId()));
-        wineList.add(new Wine("Toro Viejo", 9, "Cabernet", cellarList.get(0).getCellarId()));
-        wineList.add(new Wine("Lopez", 6, "Chardonnay", cellarList.get(0).getCellarId()));
-        wineList.add(new Wine("Termidor", 6, "Syrah", cellarList.get(0).getCellarId()));
-        wineList.add(new Wine("Uvita",12 , "Malbec", cellarList.get(0).getCellarId()));
+		wineList.add(new Wine("Toro Viejo", 12, "Malbec", cellarList.get(0)));
+        wineList.add(new Wine("Toro Viejo", 9, "Cabernet", cellarList.get(0)));
+        wineList.add(new Wine("Lopez", 6, "Chardonnay", cellarList.get(0)));
+        wineList.add(new Wine("Termidor", 6, "Syrah", cellarList.get(0)));
+        wineList.add(new Wine("Uvita",12 , "Malbec", cellarList.get(0)));
 
 		wineRepository.save(wineList);
         wineList = wineRepository.findAll();
-
-        List<Stock> stocks = new ArrayList<>();
-		Stock stock = new Stock();
+        
+        /*
+        List<Product> products = new ArrayList<>();
+		Wine stock = new Stock();
 		stock.setProduct(wineList.get(0));
 		stock.setPrice(new BigDecimal(150));
-		stocks.add(stock);
+		products.add(stock);
 
 		stock = new Stock();
         stock.setProduct(wineList.get(1));
         stock.setPrice(new BigDecimal(250));
-        stocks.add(stock);
+        products.add(stock);
 
         stock = new Stock();
         stock.setProduct(wineList.get(2));
         stock.setPrice(new BigDecimal(59));
-        stocks.add(stock);
+        products.add(stock);
 
         stock = new Stock();
         stock.setProduct(wineList.get(3));
         stock.setPrice(new BigDecimal(200));
-        stocks.add(stock);
+        products.add(stock);
 
         stock = new Stock();
         stock.setProduct(wineList.get(4));
         stock.setPrice(new BigDecimal(95));
-        stocks.add(stock);
+        products.add(stock);
 
-		this.stockRepository.save(stocks);
+		this.stockRepository.save(products);
+		*/
 	}
 }

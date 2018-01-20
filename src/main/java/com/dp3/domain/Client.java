@@ -1,34 +1,32 @@
 package com.dp3.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Document(collection = "clients")
+@Entity()
 public class Client{
 
     @Id
-    @JsonProperty()
-    @GeneratedValue(strategy = javax.persistence.GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String clientCode;
     private String clientName;
     private String clientPhone;
     private String clientLocation;
     private String clientEmail;
 
-
     public Client() {
         super();
     }
 
-
-
-
-    public Client(@JsonProperty("clientCode")String clientCode, @JsonProperty("clientEmail")String clientEmail, @JsonProperty("clientName") String clientName, @JsonProperty("clientPhone")String clientPhone, @JsonProperty("clientLocation") String clientLocation) {
+    public Client(@JsonProperty("clientCode")String clientCode,
+                  @JsonProperty("clientEmail")String clientEmail,
+                  @JsonProperty("clientName") String clientName,
+                  @JsonProperty("clientPhone")String clientPhone,
+                  @JsonProperty("clientLocation") String clientLocation) {
         this.clientCode = clientCode;
         this.clientName = clientName;
         this.clientPhone = clientLocation;
