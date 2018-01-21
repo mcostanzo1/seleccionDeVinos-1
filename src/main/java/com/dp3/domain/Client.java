@@ -1,77 +1,74 @@
 package com.dp3.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity()
 public class Client{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String clientCode;
-    private String clientName;
-    private String clientPhone;
-    private String clientLocation;
-    private String clientEmail;
+    private String clientId;
+    private String name;
+    private String phone;
+    private String address;
+    private String email;
+    @ManyToOne
+    private User clientOwner;
+
 
     public Client() {
-        super();
     }
 
-    public Client(@JsonProperty("clientCode")String clientCode,
-                  @JsonProperty("clientEmail")String clientEmail,
-                  @JsonProperty("clientName") String clientName,
-                  @JsonProperty("clientPhone")String clientPhone,
-                  @JsonProperty("clientLocation") String clientLocation) {
-        this.clientCode = clientCode;
-        this.clientName = clientName;
-        this.clientPhone = clientLocation;
-        this.clientPhone = clientPhone;
-
-        this.clientEmail = clientEmail;
+    public Client(@JsonProperty("email")String email,
+                  @JsonProperty("name") String name,
+                  @JsonProperty("phone")String phone,
+                  @JsonProperty("address") String address) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (user!=null){
+            this.clientOwner = user;
+        }
     }
 
-    public String getClientCode() {
-        return clientCode;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setClientCode(String clientCode) {
-        this.clientCode = clientCode;
+    public String getName() {
+        return name;
     }
 
-    public String getClientName() {
-        return clientName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public String getPhone() {
+        return phone;
     }
 
-    public String getClientPhone() {
-        return clientPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public void setClientPhone(String clientPhone) {
-        this.clientPhone = clientPhone;
+    public String getAddress() {
+        return address;
     }
 
-    public String getClientLocation() {
-        return clientLocation;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setClientLocation(String clientLocation) {
-        this.clientLocation = clientLocation;
+    public String getEmail() {
+        return email;
     }
 
-    public String getClientEmail() {
-        return clientEmail;
-    }
-
-    public void setClientEmail(String clientEmail) {
-        this.clientEmail = clientEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

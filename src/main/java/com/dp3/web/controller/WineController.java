@@ -3,6 +3,11 @@ package com.dp3.web.controller;
 import com.dp3.dao.CellarRepository;
 import com.dp3.dao.WineRepository;
 import com.dp3.domain.Wine;
+import com.dp3.exceptions.CellarNotFoundException;
+import com.dp3.exceptions.WineNotFoundException;
+import com.dp3.service.WineService;
+import com.dp3.web.WineWrapper;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -11,36 +16,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/wines")
+@RequestMapping("/wine")
 @CrossOrigin("*")
 public class WineController {
 
     @Autowired
-    private WineRepository wineRepository;
+    private WineService wineService;
 
     @Autowired
     private CellarRepository cellarRepository;
 
     @GetMapping("/all")
     public List<Wine> getAllWines(){
-        Sort sortByWineNameDesc = new Sort(Sort.Direction.DESC, "createdAt");
-        return wineRepository.findAll(sortByWineNameDesc);
+        return wineService.getAllWines();
     }
 
-    @PostMapping("/createWine")
-    public ModelAndView createWine(Model model, Wine wine){
-        model.addAttribute("cellars", cellarRepository.findAll());
-        wineRepository.save(wine);
-        return new ModelAndView("redirect:/stock/all");
-    }
 
-    @GetMapping(value = "/wine/{id}")
-    public ResponseEntity<Wine> getWineByWineName(@PathVariable("id") String id){
-        Wine wine = wineRepository.findOne(id);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Wine> getWineByWineName(@PathVariable("id") Integer id) {
+        Wine wine = wineService.findById(id);
         if(wine == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
@@ -48,23 +46,23 @@ public class WineController {
         }
     }
 
-    @PutMapping(value = "/wine/{id}")
-    public ResponseEntity<Wine> updateWine(@PathVariable("id") String id,
-                                                @RequestBody Wine wine){
-        Wine wineData = wineRepository.findOne(id);
-        if(wineData == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        wineData.setName(wine.getName());
-        wineData.setVariety(wine.getVariety());
-        wineData.setQuantityPerBox(wine.getQuantityPerBox());
-        Wine updateWine = wineRepository.save(wineData);
-        return new ResponseEntity<>(updateWine,HttpStatus.OK);
+    @PostMapping("/create")
+    public ModelAndView createWine(Model model, @RequestBody WineWrapper wrapper) throws CellarNotFoundException {
+        model.addAttribute("cellars", cellarRepository.findAll());
+        wineService.createWine(wrapper);
+        return new ModelAndView("redirect:/stock/all");
     }
 
-    @DeleteMapping(value = "/wine/{id}")
-    public void deleteWine(@PathVariable("id") String id){
-        wineRepository.delete(id);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Wine> updateWine(@PathVariable("id") Integer id,
+                                           @RequestBody WineWrapper wrapper) throws CellarNotFoundException, WineNotFoundException {
+        Wine updateWine = wineService.updateWine(id, wrapper);
+        return new ResponseEntity<>(updateWine, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteWine(@PathVariable("id") Integer id){
+        wineService.delete(id);
     }
 
 }

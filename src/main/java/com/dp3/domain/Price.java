@@ -18,6 +18,10 @@ public class Price implements Serializable{
     @Column(nullable = false)
     private BigDecimal price;
 
+    public Price(){
+
+    }
+
     public Price(Product product, Date effectiveDate, BigDecimal price) {
         this.product = product;
         this.effectiveDate = effectiveDate;

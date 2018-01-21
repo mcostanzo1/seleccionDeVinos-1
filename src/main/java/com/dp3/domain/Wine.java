@@ -1,5 +1,10 @@
 package com.dp3.domain;
 
+import com.dp3.dao.CellarRepository;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,6 +13,10 @@ import java.util.Date;
 @Entity
 //@DiscriminatorValue("WINE")
 public class Wine extends Product {
+
+    @Autowired
+    @Transient
+    private CellarRepository cellarRepository;
 
     @ManyToOne
     private Cellar cellar;
@@ -22,15 +31,34 @@ public class Wine extends Product {
 
 	}
 
+	/*
+    public Wine(@JsonProperty("name") String wineName,
+                @JsonProperty("quantityPerBox") int quantityPerBox,
+                @JsonProperty("variety") String variety,
+                @JsonProperty("cellarId") Integer cellarId,
+                @JsonProperty("price") BigDecimal price) {
+	    new Wine(wineName, quantityPerBox, variety, cellarRepository.findOne(cellarId), price);
+
+        super.name = wineName;
+        super.quantityPerBox = quantityPerBox;
+        this.variety = variety;
+        this.cellar = cellarRepository.findOne(cellarId);
+        super.prices = new ArrayList<>();
+        prices.add(new Price(this, new Date(), price));
+
+    }
+        */
+
+
 	public Wine(String wineName, int quantityPerBox, String variety, Cellar cellar, BigDecimal price) {
         super.name = wineName;
         super.quantityPerBox = quantityPerBox;
         super.quantityOnStock = 0;
         this.variety = variety;
         this.cellar = cellar;
-        super.prices = new ArrayList<Price>();
-        prices.add(new Price(this, new Date(), price));
+        super.prices = new ArrayList<>();
     }
+
 
     public Cellar getCellar() {
         return cellar;

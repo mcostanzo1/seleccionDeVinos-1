@@ -3,6 +3,9 @@ package com.dp3.domain;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,7 +28,7 @@ public abstract class Product {
 
     @OneToMany
     @Cascade(value= org.hibernate.annotations.CascadeType.ALL)
-    protected List<Price> prices;
+    protected List<Price> prices = new ArrayList<>();
 
     @Version
     private int version;
@@ -60,6 +63,10 @@ public abstract class Product {
 
     public void setQuantityOnStock(int quantityOnStock) {
         this.quantityOnStock = quantityOnStock;
+    }
+
+    public void addPrice(Date dateFrom, BigDecimal price) {
+        prices.add(new Price(this, dateFrom, price));
     }
 
 }

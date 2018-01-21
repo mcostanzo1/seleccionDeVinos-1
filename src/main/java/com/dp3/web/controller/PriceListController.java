@@ -27,10 +27,8 @@ public class PriceListController {
         return list;
     }
 
-
-
     @PostMapping("/createList")
-    public ModelAndView createWine(Model model, PriceList priceList){
+    public ModelAndView createWine(Model model, @RequestBody PriceList priceList){
         model.addAttribute("lists", listRepository.findAll());
         listRepository.save(priceList);
         return new ModelAndView("redirect:/lists/all");

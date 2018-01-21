@@ -77,6 +77,7 @@ public class DbSeeder implements CommandLineRunner {
 		cellarRepository.save(cellarList);
 
 		List<Wine> wineList = new ArrayList<>();
+
 		wineList.add(new Wine("Toro Viejo", 12, "Malbec", cellarList.get(0), new BigDecimal("150")));
         wineList.add(new Wine("Toro Viejo", 9, "Cabernet", cellarList.get(0), new BigDecimal("179.50")));
         wineList.add(new Wine("Lopez", 6, "Chardonnay", cellarList.get(0), new BigDecimal("60.75")));

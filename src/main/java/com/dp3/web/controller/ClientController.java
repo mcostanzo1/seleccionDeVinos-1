@@ -31,7 +31,7 @@ public class ClientController {
     }
 
     @PostMapping("/createClient")
-    public ModelAndView createClient(Model model, @Valid Client client){
+    public ModelAndView createClient(Model model, @Valid @RequestBody Client client){
         clientRepository.save(client);
         model.addAttribute("clients", clientRepository.findAll());
         return new ModelAndView("redirect:/clients/all");
@@ -54,9 +54,9 @@ public class ClientController {
         if(clientData == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        clientData.setClientName(client.getClientName());
-        clientData.setClientLocation(client.getClientLocation());
-        clientData.setClientPhone(client.getClientPhone());
+        clientData.setName(client.getName());
+        clientData.setAddress(client.getAddress());
+        clientData.setPhone(client.getPhone());
         Client updateClient = clientRepository.save(clientData);
         return new ResponseEntity<>(updateClient,HttpStatus.OK);
     }

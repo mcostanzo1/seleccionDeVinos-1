@@ -4,26 +4,26 @@ package com.dp3.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity()
 public class Cellar {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String cellarId;
+	private Integer cellarId;
 	private String cellarName;
 	private String location;
 	@Column(length = 4000)
 	private String description;
+	private Date createdAt = new Date();
 
 	public Cellar() {
 	}
 
-	public Cellar(@JsonProperty("id") String id,
-				  @JsonProperty("cellarName") String cellarName,
+	public Cellar(@JsonProperty("cellarName") String cellarName,
 				  @JsonProperty("location") String location,
 				  @JsonProperty("description") String description) {
-		this.cellarId = id;
 		this.cellarName = cellarName;
 		this.location = location;
 		this.description = description;
@@ -53,11 +53,15 @@ public class Cellar {
 		return description;
 	}
 
-    public String getCellarId() {
+    public Integer getCellarId() {
         return cellarId;
     }
 
-    public void setCellarId(String cellarId) {
-        this.cellarId = cellarId;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
