@@ -1,8 +1,7 @@
 package com.dp3.web;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
-
+import com.dp3.config.MvcConfig;
+import com.dp3.security.SecurityConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -10,8 +9,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.dp3.config.MvcConfig;
-import com.dp3.security.SecurityConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
 
 @Configuration
 @EnableWebMvc

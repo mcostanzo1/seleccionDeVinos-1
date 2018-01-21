@@ -65,6 +65,10 @@ public abstract class Product {
         this.quantityOnStock = quantityOnStock;
     }
 
+    public List<Price> getPrices() {
+        return prices;
+    }
+
     public void addPrice(Date dateFrom, BigDecimal price) {
         prices.add(new Price(this, dateFrom, price));
     }

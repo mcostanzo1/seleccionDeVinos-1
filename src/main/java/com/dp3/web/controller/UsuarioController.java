@@ -1,9 +1,8 @@
 package com.dp3.web.controller;
 
+import com.dp3.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.dp3.service.UsuarioService;
 
 @Controller
 @RequestMapping("/user")

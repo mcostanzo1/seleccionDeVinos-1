@@ -1,4 +1,4 @@
-package com.dp3.web;
+package com.dp3.web.wrapper;
 
 import com.dp3.domain.Wine;
 

@@ -1,5 +1,7 @@
 package com.dp3.security;
 
+import com.dp3.domain.User;
+import com.dp3.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,9 +9,6 @@ import org.springframework.security.authentication.dao.AbstractUserDetailsAuthen
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import com.dp3.domain.User;
-import com.dp3.service.UsuarioService;
 
 @Component("authenticationProvider")
 public class CustomUserAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {

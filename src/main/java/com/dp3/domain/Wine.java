@@ -1,11 +1,12 @@
 package com.dp3.domain;
 
 import com.dp3.dao.CellarRepository;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,6 +58,7 @@ public class Wine extends Product {
         this.variety = variety;
         this.cellar = cellar;
         super.prices = new ArrayList<>();
+        super.addPrice(new Date(), price);
     }
 
 

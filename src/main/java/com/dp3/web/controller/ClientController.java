@@ -1,10 +1,8 @@
 package com.dp3.web.controller;
 
-import com.dp3.dao.ClientRepository;
-import com.dp3.domain.Cellar;
 import com.dp3.domain.Client;
+import com.dp3.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -14,59 +12,59 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/client")
 @CrossOrigin("*")
 public class ClientController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
+
+    @GetMapping("/")
+    public ModelAndView getClientsView(Model model){
+        List<Client> clients = clientService.getClients();
+        model.addAttribute("clientList", clients);
+        return new ModelAndView("client");
+    }
 
     @GetMapping("/all")
-    public ModelAndView stock(Model model){
-        ModelAndView client = new ModelAndView("client");
-        model.addAttribute("clientList", clientRepository.findAll());
-        return client;
+    public List<Client> getAllClients(Model model){
+        return clientService.getClients();
     }
 
-    @PostMapping("/createClient")
+    @PostMapping("/create")
     public ModelAndView createClient(Model model, @Valid @RequestBody Client client){
-        clientRepository.save(client);
-        model.addAttribute("clients", clientRepository.findAll());
-        return new ModelAndView("redirect:/clients/all");
+    //public ModelAndView createClient(Model model, HttpServletRequest request, HttpServletResponse response){
+    //public ModelAndView createClient(Model model, @RequestBody ClientWrapper wrapper){
+        clientService.createClient(client);
+        model.addAttribute("clients",  clientService.getClients());
+        return new ModelAndView("redirect:/client/all");
     }
 
-    @GetMapping(value = "/client/{clientName}")
-    public ResponseEntity<Client> getClientByClientName(@PathVariable("clientName") String clientName){
-        Client client = clientRepository.findOne(clientName);
-        if(client == null){
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Client> getClientByClientName(@PathVariable("id") Integer id){
+        Client client = clientService.getClientById(id);
+        if (client==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             return new ResponseEntity<>(client, HttpStatus.OK);
         }
     }
 
-    @PutMapping(value = "/edit/{clientName}")
-    public ResponseEntity<Client> updateClient(@PathVariable("clientName") String clientName,
-                                               @Valid @RequestBody Client client){
-        Client clientData = clientRepository.findOne(clientName);
-        if(clientData == null){
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable("id") Integer id,
+                                                 @Valid @RequestBody Client client){
+        Client myClient = clientService.getClientById(id);
+        if (client==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        clientData.setName(client.getName());
-        clientData.setAddress(client.getAddress());
-        clientData.setPhone(client.getPhone());
-        Client updateClient = clientRepository.save(clientData);
-        return new ResponseEntity<>(updateClient,HttpStatus.OK);
+        return new ResponseEntity<>(clientService.updateClient(myClient, client),HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/delete/{clientCode}", method = RequestMethod.POST)
-    public ModelAndView deleteClient(Model model,@PathVariable("clientCode") String clientCode){
-        model.addAttribute("clientList", clientRepository.findAll());
-        clientRepository.delete(clientCode);
-        return new ModelAndView("redirect:/clients/all");
+    @DeleteMapping(value = "/{id}")
+    public void deleteClient(Model model,@PathVariable("id") Integer id){
+        clientService.delete(id);
     }
 
 }

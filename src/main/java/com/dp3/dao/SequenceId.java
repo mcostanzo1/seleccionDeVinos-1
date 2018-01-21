@@ -1,8 +1,8 @@
 package com.dp3.dao;
 
-import java.math.BigInteger;
-
 import org.springframework.data.annotation.Id;
+
+import java.math.BigInteger;
 
 public class SequenceId {
 	

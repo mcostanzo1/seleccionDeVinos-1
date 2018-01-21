@@ -1,12 +1,11 @@
 package com.dp3.service;
 
+import com.dp3.dao.UserRepository;
 import com.dp3.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.dp3.dao.UserRepository;
 
 @Service("userDetailsService")
 public class UsuarioServiceImpl implements UsuarioService {

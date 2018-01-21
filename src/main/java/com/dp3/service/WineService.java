@@ -6,15 +6,10 @@ import com.dp3.domain.Cellar;
 import com.dp3.domain.Wine;
 import com.dp3.exceptions.CellarNotFoundException;
 import com.dp3.exceptions.WineNotFoundException;
-import com.dp3.web.WineWrapper;
-import org.hibernate.annotations.NotFound;
+import com.dp3.web.wrapper.WineWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.sql.Wrapper;
 import java.util.Date;
 import java.util.List;
 

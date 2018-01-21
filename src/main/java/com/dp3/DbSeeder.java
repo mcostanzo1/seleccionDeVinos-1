@@ -1,34 +1,40 @@
 package com.dp3;
 
+import com.dp3.dao.CellarRepository;
+import com.dp3.dao.ClientRepository;
+import com.dp3.dao.UserRepository;
+import com.dp3.dao.WineRepository;
+import com.dp3.domain.Cellar;
+import com.dp3.domain.Client;
+import com.dp3.domain.User;
+import com.dp3.domain.Wine;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dp3.dao.CellarRepository;
-import com.dp3.dao.WineRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-
-import com.dp3.dao.UserRepository;
-import com.dp3.domain.Cellar;
-import com.dp3.domain.User;
-import com.dp3.domain.Wine;
-
 @Component
+@Profile("dev")
 public class DbSeeder implements CommandLineRunner {
 	
 	private UserRepository usersRepository;
     private CellarRepository cellarRepository;
     private WineRepository wineRepository;
+    private ClientRepository clientRepository;
+
     @Autowired
     private ApplicationContext context;
 
-	public DbSeeder(UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository) {
+	public DbSeeder(UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository, ClientRepository clientRepository) {
 		this.usersRepository = usersRepository;
         this.cellarRepository = cellarRepository;
         this.wineRepository = wineRepository;
+        this.clientRepository = clientRepository;
     }
 	
 	@Override
@@ -37,6 +43,7 @@ public class DbSeeder implements CommandLineRunner {
         usersRepository.deleteAll();
         cellarRepository.deleteAll();
         wineRepository.deleteAll();
+        clientRepository.deleteAll();
 
 		List<User> users = new ArrayList<>();
 		
@@ -46,7 +53,7 @@ public class DbSeeder implements CommandLineRunner {
 		user.setPassword("casheja");
 		user.setFirstname("Nicolás");
 		user.setLastname("Osowski");
-		user.setRol("ACTUATOR");
+		user.setRol("ADMIN");
 		
 		users.add(user);
 		
@@ -85,5 +92,12 @@ public class DbSeeder implements CommandLineRunner {
         wineList.add(new Wine("Uvita",12 , "Malbec", cellarList.get(1), new BigDecimal("400")));
 
 		wineRepository.save(wineList);
+
+
+		List<Client> clients = new ArrayList<>();
+		clients.add(new Client("depetris.martin@gmail.com","Martin Depetris","1144444381","Boyaca 473 7 B", users.get(0)));
+        clients.add(new Client("mariano.costanzo@gmail.com","Mariano Costanzo","1144235923","Boyaca 473 6 B", users.get(1)));
+
+        clientRepository.save(clients);
 	}
 }

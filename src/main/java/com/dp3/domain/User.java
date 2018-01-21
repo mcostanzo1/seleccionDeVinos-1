@@ -1,15 +1,14 @@
 package com.dp3.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class User implements UserDetails {
@@ -89,4 +88,13 @@ public class User implements UserDetails {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
+
+	public boolean isAdmin(){
+        for (GrantedAuthority authority: getAuthorities()) {
+            if ("ADMIN".equals(authority.getAuthority())){
+                return true;
+            }
+        }
+        return false;
+    }
 }
