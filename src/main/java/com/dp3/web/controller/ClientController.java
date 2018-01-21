@@ -23,6 +23,7 @@ public class ClientController {
     @GetMapping("/")
     public ModelAndView getClientsView(Model model){
         List<Client> clients = clientService.getClients();
+        model.addAttribute("client", new Client());
         model.addAttribute("clientList", clients);
         return new ModelAndView("client");
     }
@@ -33,12 +34,9 @@ public class ClientController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createClient(Model model, @Valid @RequestBody Client client){
-    //public ModelAndView createClient(Model model, HttpServletRequest request, HttpServletResponse response){
-    //public ModelAndView createClient(Model model, @RequestBody ClientWrapper wrapper){
+    public ModelAndView createClient(Model model, @Valid @ModelAttribute Client client){
         clientService.createClient(client);
-        model.addAttribute("clients",  clientService.getClients());
-        return new ModelAndView("redirect:/client/all");
+        return new ModelAndView("redirect:/client/");
     }
 
     @GetMapping(value = "/{id}")
@@ -53,7 +51,7 @@ public class ClientController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable("id") Integer id,
-                                                 @Valid @RequestBody Client client){
+                                                 @Valid @ModelAttribute Client client){
         Client myClient = clientService.getClientById(id);
         if (client==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,9 +60,10 @@ public class ClientController {
     }
 
 
-    @DeleteMapping(value = "/{id}")
-    public void deleteClient(Model model,@PathVariable("id") Integer id){
+    @PostMapping(value = "/delete/{id}")
+    public ModelAndView deleteClient(Model model,@PathVariable("id") Integer id){
         clientService.delete(id);
+        return new ModelAndView("redirect:/client/");
     }
 
 }

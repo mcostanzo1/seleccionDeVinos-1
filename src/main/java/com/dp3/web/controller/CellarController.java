@@ -32,10 +32,9 @@ public class CellarController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createCellar(Model model, @Valid @RequestBody  Cellar cellar){
+    public ModelAndView createCellar(Model model, @Valid @ModelAttribute Cellar cellar){
         cellarRepository.save(cellar);
-        model.addAttribute("cellars", cellarRepository.findAll());
-        return new ModelAndView("redirect:/stock/all");
+        return new ModelAndView("redirect:/products/all");
     }
 
     @GetMapping(value = "/{id}")

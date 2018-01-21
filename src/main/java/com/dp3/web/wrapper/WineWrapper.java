@@ -20,4 +20,16 @@ public class WineWrapper {
     public BigDecimal getPrice() {
         return price;
     }
+
+    public void setWine(Wine wine) {
+        this.wine = wine;
+    }
+
+    public void setCellarId(Integer cellarId) {
+        this.cellarId = cellarId;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }

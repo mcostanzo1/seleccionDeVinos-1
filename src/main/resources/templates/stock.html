@@ -22,7 +22,7 @@
                         <a class="nav-link" href="/start">Stock</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/client/all">Clientes</a>
+                        <a class="nav-link" href="/client/">Clientes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/lists/all">Listas de precios</a>
@@ -45,12 +45,12 @@
 
         <div class="container">
             <p> </p>
-            <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Mi stock</h1>
+            <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Stock</h1>
             <!-- Trigger the modal with a button -->
 
             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newCellar">Nueva Bodega</button>
             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newWine">Nuevo Vino</button>
-            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newStock">Agregar Stock</button>
+            <!-- <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newStock">Agregar Stock</button> -->
 
             <p> </p>
 
@@ -58,26 +58,32 @@
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Código de Stock <span><i class="fa fa-sort" aria-hidden="true"></i></span> </th>
-                    <th scope="col">Producto <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                    <th scope="col">Cantidad de cajas <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                    <th scope="col">Precio unitario <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th hidden scope="col">Código de Stock <span><i class="fa fa-sort" aria-hidden="true"></i></span> </th>
+                    <th scope="col">Bodega <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Nombre <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Variedad <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th hidden scope="col">Unidades por caja <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">En stock (en botellas) <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <!--<th scope="col">Precio de lista <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>-->
                     <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr th:each="stock : ${stockList}" id="id01">
-                        <td th:text="${stock.stockCode}"></td>
-                        <td th:text="${stock.productName}"></td>
-                        <td th:text="${stock.quantityOnStockBox}"></td>
-                        <td th:text="${stock.price}"></td>
+                        <td hidden th:text="${stock.productId}"></td>
+                        <td th:text="${stock.cellar.cellarName}"></td>
+                        <td th:text="${stock.name}"></td>
+                        <td th:text="${stock.variety}"></td>
+                        <td hidden th:text="${stock.quantityPerBox}"></td>
+                        <td th:text="${stock.quantityOnStock}"></td>
+                        <!--<td th:text="${stock.price}"></td>-->
                         <td>
-                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.stockCode}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
+                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.productId}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
                                 Editar
                             </button>
                             <script>
-                                function myFunction(stockCode) {
-                                    var elems= document.getElementById(stockCode);
+                                function myFunction(productId) {
+                                    var elems= document.getElementById(productId);
                                     var body = document.getElementById('editionDetails');
                                     body.innerHTML = '' +
                                         '<form id="editionForm" name="editionForm" method="post" action="/stock/delete/'+ elems.id + '">'+
@@ -148,10 +154,10 @@
             </div>
 
             <!-- Stock Modal -->
+            <!--
             <div id="newStock" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
-                    <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Nuevo Stock</h4>
@@ -183,6 +189,7 @@
 
                 </div>
             </div>
+            -->
 
             <!-- Cellar Modal -->
             <div id="newCellar" class="modal fade" role="dialog">
@@ -195,13 +202,12 @@
                             <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form  id="cellarForm" action="#" th:action="@{/cellars/createCellar}" method="post" name="cellarForm">
+                            <form  id="cellarForm" action="#" th:action="@{/cellar/create}" method="post" name="cellarForm">
                                 <div class="form-group">
-                                    <input>
                                     <label for="cellarName">Nombre</label>
-                                    <input type="text" class="form-control" id="cellarName" name="cellarName" placeholder="Ingrese el firstname de la bodega"><br />
+                                    <input type="text" class="form-control" id="cellarName" name="cellarName" placeholder="Ingrese el nombre de la bodega"><br />
                                     <label for="location">Ubicación</label>
-                                    <input type="text" class="form-control" id="location" placeholder="Mendoza, Santiago..." name="location"/><br />
+                                    <input type="text" class="form-control" id="location" placeholder="Mendoza, Jujuy..." name="location"/><br />
                                     <label for="description">Descripción</label>
                                     <textarea class="form-control" rows="5" placeholder="Breve descripción" id="description" name="description"></textarea><br />
                                     <button type="submit" id="submitCellar" class="btn btn-primary" >Guardar</button>
@@ -227,22 +233,26 @@
                             <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form id="wineForm" action="#"  th:action="@{/wines/createWine}" method="post" name="wineForm">
+                            <form id="wineForm" action="#"  th:action="@{/wine/create}" th:object="${wineWrapper}" method="post" name="wineForm">
                                 <div class="form-group">
                                     <label for="wineName">Nombre</label>
-                                    <input type="text" class="form-control" id="wineName" name="wineName" placeholder="Ingrese el firstname del vino"><br />
-                                    <label for="quantityOnBox">Cantidad en caja</label>
-                                    <input type="number" class="form-control" id="quantityOnBox" placeholder="6, 9, 12..." name="quantityOnBox"/><br />
+                                    <input type="text" class="form-control" th:field="*{wine.name}" id="wineName" name="wineName" placeholder="Ingrese el nombre del vino"><br />
+                                    <label for="variety">Variedad</label>
+                                    <input type="text" class="form-control"  th:field="*{wine.variety}" placeholder="Malbec, Chardonnay..." id="variety" name="variety"/><br />
+                                    <label for="quantityPerBox">Cantidad por caja</label>
+                                    <input type="number" class="form-control" th:field="*{wine.quantityPerBox}" id="quantityPerBox" placeholder="6, 9, 12..." name="quantityPerBox"/><br />
                                     <label for="cellar">Bodega</label>
-                                    <select class="form-control" name="cellar" id="cellar">
+                                    <select class="form-control" name="cellar" id="cellar" th:field="*{cellarId}">
                                             <option th:each="cellar : ${cellars}"
-                                                    th:value="${cellar.cellarName}"
-                                                    th:select="${cellar.cellarName}"
+                                                    th:value="${cellar.cellarId}"
+                                                    th:select="${cellar.cellarId}"
                                                     th:text="${cellar.cellarName}">
                                             </option>
                                     </select><br />
-                                    <label for="wineClasify">Clasificación</label>
-                                    <input type="text" class="form-control" placeholder="malbec,chardonnay..." id="wineClasify" name="clasify"/><br />
+                                    <label for="price">Precio de Lista</label>
+                                    <input type="number" step=".01" class="form-control"  th:field="*{price}" placeholder="150" id="price" name="price"/><br />
+                                    <label for="wineDescription">Descripción</label>
+                                    <textarea class="form-control" rows="5" placeholder="Breve descripción" th:field="*{wine.description}" id="wineDescription" name="wineDescription"></textarea><br />
                                     <button type="submit" id="wineSubmit"  class="btn btn-primary" >Guardar</button>
                                 </div>
                             </form>

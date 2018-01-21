@@ -39,9 +39,9 @@ public class WineController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createWine(Model model, @RequestBody WineWrapper wrapper) throws CellarNotFoundException {
+    public ModelAndView createWine(Model model, @ModelAttribute WineWrapper wrapper) throws CellarNotFoundException {
         wineService.createWine(wrapper);
-        return new ModelAndView("redirect:/stock/all");
+        return new ModelAndView("redirect:/products/all");
     }
 
     @PutMapping(value = "/{id}")
