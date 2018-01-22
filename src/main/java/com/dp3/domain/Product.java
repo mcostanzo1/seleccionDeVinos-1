@@ -1,6 +1,9 @@
 package com.dp3.domain;
 
+import com.dp3.dao.PriceId;
 import org.hibernate.annotations.Cascade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +14,9 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn(name = "PRODUCT_TYPE")
-public abstract class Product {
+public abstract class Product implements Comparable<Product> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Product.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,9 +75,21 @@ public abstract class Product {
     }
 
     public void addPrice(Date dateFrom, BigDecimal price) {
-        prices.add(new Price(this, dateFrom, price));
+        PriceId priceId = new PriceId(this, dateFrom);
+        prices.add(new Price(priceId, price));
     }
 
+    @Override
+    public int compareTo(Product o) {
+        LOGGER.info("compareTo de Product !!! ");
+        return this.productId.compareTo(o.productId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Product prod = (Product) obj;
+        return this.productId == prod.productId;
+    }
 }
 
 

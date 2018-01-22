@@ -1,13 +1,8 @@
 package com.dp3;
 
-import com.dp3.dao.CellarRepository;
-import com.dp3.dao.ClientRepository;
-import com.dp3.dao.UserRepository;
-import com.dp3.dao.WineRepository;
-import com.dp3.domain.Cellar;
-import com.dp3.domain.Client;
-import com.dp3.domain.User;
-import com.dp3.domain.Wine;
+import com.dp3.dao.*;
+import com.dp3.domain.*;
+import com.dp3.service.PriceListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -21,14 +16,15 @@ import java.util.List;
 @Component
 @Profile("dev")
 public class DbSeeder implements CommandLineRunner {
-	
+
 	private UserRepository usersRepository;
     private CellarRepository cellarRepository;
     private WineRepository wineRepository;
     private ClientRepository clientRepository;
-
     @Autowired
-    private ApplicationContext context;
+    private PriceListRepository priceListRepository;
+    @Autowired
+    private PriceListService priceListService;
 
 	public DbSeeder(UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository, ClientRepository clientRepository) {
 		this.usersRepository = usersRepository;
@@ -36,7 +32,7 @@ public class DbSeeder implements CommandLineRunner {
         this.wineRepository = wineRepository;
         this.clientRepository = clientRepository;
     }
-	
+
 	@Override
 	public void run(String... arg0) throws Exception {
 
@@ -99,5 +95,25 @@ public class DbSeeder implements CommandLineRunner {
         clients.add(new Client("mariano.costanzo@gmail.com","Mariano Costanzo","1144235923","Boyaca 473 6 B", users.get(1)));
 
         clientRepository.save(clients);
+
+        List<PriceList> priceLists = new ArrayList<>();
+        PriceList list = new PriceList();
+        list.setDescription("Lista Minorista");
+        list.setBase(BaseOfPriceList.ORIGINAL_PRICE);
+        list.setBasePriceList(null);
+        list.setDiscountPercentage(new BigDecimal(0.90));
+        priceListService.createNewPriceList(list);
+        priceLists.add(list);
+        priceListRepository.saveAndFlush(list);
+
+        list = new PriceList();
+        list.setDescription("Lista Mayorista");
+        list.setBase(BaseOfPriceList.PRICE_LIST);
+        list.setBasePriceList(priceLists.get(0));
+        list.setDiscountPercentage(new BigDecimal(0.90));
+        priceListService.createNewPriceList(list);
+        priceLists.add(list);
+        priceListRepository.save(list);
+
 	}
 }

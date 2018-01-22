@@ -1,9 +1,8 @@
 package com.dp3.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.dp3.dao.PriceId;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,12 +10,8 @@ import java.util.Date;
 @Entity
 public class Price implements Serializable{
 
-    @Id
-    @ManyToOne
-    private Product product;
-
-    @Id
-    private Date effectiveDate;
+    @EmbeddedId
+    private PriceId priceId;
 
     @Column(nullable = false)
     private BigDecimal price;
@@ -25,18 +20,17 @@ public class Price implements Serializable{
 
     }
 
-    public Price(Product product, Date effectiveDate, BigDecimal price) {
-        this.product = product;
-        this.effectiveDate = effectiveDate;
+    public Price(PriceId priceId, BigDecimal price) {
+        this.priceId = priceId;
         this.price = price;
     }
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
+    public PriceId getPriceId() {
+        return priceId;
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    public void setPriceId(PriceId priceId) {
+        this.priceId = priceId;
     }
 
     public BigDecimal getPrice() {

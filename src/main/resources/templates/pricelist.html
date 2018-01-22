@@ -22,10 +22,10 @@
                 <a class="nav-link" href="/start">Stock</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/clients/all">Clientes </a>
+                <a class="nav-link" href="/client/">Clientes </a>
             </li>
             <li class="nav-item  active">
-                <a class="nav-link" href="/lists/all">Listas de precios<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/lists/">Listas de precios<span class="sr-only">(current)</span></a>
             </li>
             <form class="form-inline">
                 <button class="btn btn-outline-success" href="/orders/new" type="button">NUEVO PEDIDO</button>
@@ -42,7 +42,7 @@
 
         <div class="container">
             <p> </p>
-            <h1><i class="fa fa-list-alt" aria-hidden="true"></i> Mis listas</h1>
+            <h1><i class="fa fa-list-alt" aria-hidden="true"></i> Listas de Precios</h1>
             <!-- Trigger the modal with a button -->
 
             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newClient">Nueva Lista</button>
@@ -52,24 +52,25 @@
             <table id="clientTable" class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Código de lista <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col" hidden>Código de lista <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Nombre de lista <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                    <th scope="col">Cantidad de productos <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Origen de la Lista <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Lista de base <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Porcentaje aplicado <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Acciones</th>
-
 
 
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="priceList : ${priceListList}">
-                        <td th:text="${priceList.listCode}"></td>
-                        <td th:text="${priceList.listName}"></td>
-                        <td th:text="${priceList.listQuantityOfProducts}"></td>
-                        <td th:text="${priceList.listPercentage}"></td>
+                    <tr th:each="priceList : ${lists}">
+                        <td hidden th:text="${priceList.id}"></td>
+                        <td th:text="${priceList.description}"></td>
+                        <td th:text="#{${'priceList.base.' + priceList.base}}" ></td>
+                        <td th:text="${priceList.basePriceList?.description}"></td>
+                        <td th:text="${priceList.discountPercentage}"></td>
                         <td>
-                            <button class="btn btn-outline-info" th:attr="id=${priceList.listCode}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editList">
+                            <button class="btn btn-outline-info" th:attr="id=${priceList.id}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editList">
                                 Editar
                             </button>
                             <script>
@@ -117,160 +118,35 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
+                            <!--
+
+                            // TODO REVISAR ESTO
+                            <form id="listForm" action="#"  th:action="@{/lists/create}" th:object="${priceListWrapper}" method="post" name="listForm">
                                 <div class="form-group">
-                                    <label for="listName">Nombre de lista</label>
-                                    <input type="text" class="form-control" id="listName" name="listName" placeholder="Ejemplo: Lista de amigos"><br />
-                                    <label for="percentage">Porcentaje aplicado %</label>
-                                    <input type="number" class="form-control" id="percentage" placeholder="Ejemplo: 10" name="percentage"/><br />
-                                    <label for="produtcTable">Productos</label>
-                                    <table id="produtcTable" class="table">
-                                        <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Producto</th>
-                                            <th scope="col">Precio de lista</th>
-                                            <th scope="col">Agregar</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="stock : ${stockList}">
-                                            <td th:text="${stock.productName}"></td>
-                                            <td th:text="${stock.price}"></td>
-                                            <td class="text-center">
-                                                <input class="form-check-input" type="checkbox" th:attr="id=${stock.stockCode}" onclick="checkBox(this)" aria-label="...">
-                                            </td>
-                                        </tbody>
-                                    </table>
-                                    <button class="btn btn-outline-info" onclick="post()" >Guardar</button>
-                                    <script>
-                                        var arr= [];
-                                        function checkBox(status) {
-                                            if(status.checked){
-                                                arr.push('"'+status.id+'"');
-                                                var listName = document.getElementById('listName').value;
-                                                var percentage = document.getElementById('percentage').value;
-                                                var json=
-                                                    '{' +
-                                                    '"listName": "'+listName+'",'+
-                                                    '"percentage": "'+percentage+'",'+
-                                                    '"stockCodes": ['+ arr+
-                                                        ']}';
-                                                alert(json);
-                                            }else
-                                            {
-                                                var index = arr.indexOf('"'+status.id+'"');
-                                                arr.splice(index,1);
-                                                var json=
-                                                    '{' +
-                                                    '"listName":'+listName+','+
-                                                    '"percentage":'+percentage+','+
-                                                    '"stockCodes": ['+ arr+
-                                                    ']}';
-                                                alert(json);
-                                            }
-
-
-                                            var path = "/lists/createList";
-                                            function post(path,params,method){
-                                                method = method || "post";
-
-                                                var form = document.createElement("form");
-                                                form.setAttribute("method", method);
-                                                form.setAttribute("action",path);
-
-
-
-                                                        var hiddenField = document.createElement("input");
-                                                        hiddenField.setAttribute("type","hidden");
-                                                        hiddenField.setAttribute("name", key);
-                                                        hiddenField.setAttribute("value", params);
-                                                        form.appendChild(hiddenField);
-
-
-
-                                                document.body.appendChild(form);
-                                                form.submit();
-
-                                            }
-                                           post(path,json);
-                                        }
-                                    </script>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Stock Modal -->
-            <div id="newStock" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Nuevo Stock</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <form  id="stockForm" action="#" th:action="@{/stock/createStock}" method="post" name="stockForm">
-                                <div class="form-group">
-                                    <label for="quantityOnStockBox">Cantidad de cajas</label>
-                                    <input type="number" class="form-control" id="quantityOnStockBox" placeholder="1,2,3...90..." name="quantityOnStockBox"/><br />
-                                    <label for="productName">Producto</label>
-                                    <select class="form-control" name="productName" id="productName">
-                                        <option th:each="wine : ${wines}"
-                                                th:value="${wine.wineName}"
-                                                th:text="${wine.wineName}"
-                                                th:select="${wine.wineName}">
+                                    <label for="listName">Nombre de la Lista</label>
+                                    <input type="text" class="form-control" th:field="*{listWrapper.priceList.description}" id="listName" name="listName" placeholder="Lista de amigos"><br />
+                                    <label for="discount">Porcentaje aplicado %</label>
+                                    <input type="number" step=".01" class="form-control"  th:field="*{listWrapper.discount}"  id="discount" name="discount"/><br />
+                                    <label for="origen">Origen de la lista</label>
+                                    <select class="form-control" th:field="*{listWrapper.priceList.base}" name="origen" id="origen">
+                                        <option th:each="thisBase : ${bases}"
+                                                th:value="${thisBase.cellarId}"
+                                                th:select="${thisBase.cellarId}"
+                                                th:text="#{${'thisBase.base.' + thisBase.base}}">
                                         </option>
                                     </select><br />
-                                    <label for="price">Precio unitario</label>
-                                    <input type="number" class="form-control" placeholder="1,2,45,45.45...." id="price" name="price"/><br />
-                                    <button type="submit" id="stockSubmit"  class="btn btn-outline-info" >Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Wine Modal -->
-            <div id="newWine" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Nuevo Vino</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <form  id="wineForm" action="#"  th:action="@{/wines/createWine}" method="post" name="wineForm">
-                                <div class="form-group">
-                                    <label for="wineName">Nombre</label>
-                                    <input type="text" class="form-control" id="wineName" name="wineName" placeholder="Ingrese el firstname del vino"><br />
-                                    <label for="quantityOnBox">Cantidad en caja</label>
-                                    <input type="number" class="form-control" id="quantityOnBox" placeholder="1,2,3...90..." name="quantityOnBox"/><br />
-                                    <label for="cellar">Bodega</label>
-                                    <select class="form-control" name="cellar" id="cellar">
-                                        <option th:each="cellar : ${cellars}"
-                                                th:value="${cellar.cellarName}"
-                                                th:select="${cellar.cellarName}"
-                                                th:text="${cellar.cellarName}">
+                                    <label for="baseList">Lista</label>
+                                    <select class="form-control" th:field="*{listWrapper.baseListId}" name="baseList" id="baseList">
+                                        <option th:each="lists : ${lists}"
+                                                th:value="${lists.id}"
+                                                th:select="${lists.id}"
+                                                th:text="${lists.description}">
                                         </option>
                                     </select><br />
-                                    <label for="wineClasify">Clasificación</label>
-                                    <input type="text" class="form-control" placeholder="malbec,chardonnay..." id="wineClasify" name="clasify"/><br />
-                                    <button type="submit" id="wineSubmit"  class="btn btn-outline-info" >Guardar</button>
+                                    <button type="submit" id="listSubmit"  class="btn btn-primary" >Guardar</button>
                                 </div>
                             </form>
+                            -->
                         </div>
                         <div class="modal-footer">
                             <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -279,7 +155,6 @@
 
                 </div>
             </div>
-
 
         </div>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

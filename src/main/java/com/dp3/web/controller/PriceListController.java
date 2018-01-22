@@ -1,7 +1,10 @@
 package com.dp3.web.controller;
 
-import com.dp3.dao.ListRepository;
+import com.dp3.dao.PriceListRepository;
+import com.dp3.domain.BaseOfPriceList;
 import com.dp3.domain.PriceList;
+import com.dp3.service.PriceListService;
+import com.dp3.web.wrapper.PriceListWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 
 @RestController
@@ -18,51 +23,53 @@ import javax.validation.Valid;
 public class PriceListController {
 
     @Autowired
-    private ListRepository listRepository;
+    private PriceListService priceListService;
 
-    @GetMapping("/all")
-    public ModelAndView stock(Model model){
+    @GetMapping("/")
+    public ModelAndView getView(Model model){
         ModelAndView list = new ModelAndView("pricelist");
-        model.addAttribute("lists", listRepository.findAll());
+        model.addAttribute("priceListWrapper", new PriceListWrapper());
+        model.addAttribute("bases", Arrays.asList(BaseOfPriceList.values()));
+        model.addAttribute("lists", priceListService.findAll());
         return list;
     }
 
-    @PostMapping("/createList")
-    public ModelAndView createWine(Model model, @RequestBody PriceList priceList){
-        model.addAttribute("lists", listRepository.findAll());
-        listRepository.save(priceList);
+    @GetMapping("/baseOfPriceList")
+    public List<BaseOfPriceList> getBaseOfPriceList(){
+        return Arrays.asList(BaseOfPriceList.values());
+    }
+
+    @GetMapping("/all")
+    public List<PriceList> getAllPriceLists(){
+        return priceListService.findAll();
+    }
+
+    @PostMapping("/create")
+    public ModelAndView createList(Model model, @ModelAttribute PriceList priceList){
+        priceListService.createNewPriceList(priceList);
+        model.addAttribute("lists", priceListService.findAll());
         return new ModelAndView("redirect:/lists/all");
     }
 
-    @GetMapping(value = "/{listCode}")
-    public ResponseEntity<PriceList> getPriceListByListCode(@PathVariable("listCode") String listCode){
-        PriceList priceList = listRepository.findOne(listCode);
-        if(priceList == null){
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<PriceList> getPriceListByListCode(@PathVariable("id") Integer id){
+        PriceList priceList = priceListService.findById(id);
+        if (priceList==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             return new ResponseEntity<>(priceList, HttpStatus.OK);
         }
     }
 
-    @PutMapping(value = "/edit/{listCode}")
-    public ResponseEntity<PriceList> updatePriceList(@PathVariable("listCode") String listCode,
+    @PutMapping(value = "/edit/{id}")
+    public ResponseEntity<PriceList> updatePriceList(@PathVariable("id") Integer id,
                                              @Valid @RequestBody PriceList priceList){
-        PriceList listData = listRepository.findOne(listCode);
-        if(listData == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        listData.setListName(priceList.getListName());
-        listData.setProductName(priceList.getProductName());
-        listData.setListPrice(priceList.getListPrice());
-        listData.setListPriceFinal(priceList.getListPriceFinal());
-        PriceList updatePriceList = listRepository.save(listData);
-        return new ResponseEntity<>(updatePriceList,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    @RequestMapping(value = "/delete/{listCode}")
-    public ModelAndView deleteStock(Model model,@PathVariable("listCode") String listCode){
-        model.addAttribute("lists", listRepository.findAll());
-        listRepository.delete(listCode);
+    @RequestMapping(value = "/delete/{id}")
+    public ModelAndView deleteStock(Model model,@PathVariable("id") Integer id){
+        priceListService.delete(id);
         return new ModelAndView("redirect:/lists/all");
     }
 

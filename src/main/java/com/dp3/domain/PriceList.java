@@ -1,12 +1,15 @@
 package com.dp3.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.collection.internal.PersistentMap;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Entity
 public class PriceList {
@@ -14,65 +17,66 @@ public class PriceList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String listCode;
-    private String listName;
-    private String productName;
-    private String listPrice;
-    private String listPriceFinal;
+    private String description;
 
+    @Column(nullable = false)
+    private BaseOfPriceList base;
+
+    @OneToOne
+    private PriceList basePriceList;
+
+    @Column(nullable = false)
+    private BigDecimal discountPercentage;
+
+    @ElementCollection
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    private Map<Product, BigDecimal> productPrice = new TreeMap<>();
 
     public PriceList() {
     }
 
-    public PriceList(@JsonProperty("listCode") String listCode,
-                     @JsonProperty("listName") String listName,
-                     @JsonProperty("productName") String productName,
-                     @JsonProperty("listPrice") String listPrice,
-                     @JsonProperty("listPriceFinal") String listPriceFinal) {
-        this.listCode = listCode;
-        this.listName = listName;
-        this.productName = productName;
-        this.listPrice = listPrice;
-        this.listPriceFinal = listPriceFinal;
+    public Integer getId() {
+        return id;
     }
 
-    public String getListCode() {
-        return listCode;
+    public String getDescription() {
+        return description;
     }
 
-    public void setListCode(String listCode) {
-        this.listCode = listCode;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getListName() {
-        return listName;
+    public BaseOfPriceList getBase() {
+        return base;
     }
 
-    public void setListName(String listName) {
-        this.listName = listName;
+    public PriceList getBasePriceList() {
+        return basePriceList;
     }
 
-    public String getProductName() {
-        return productName;
+    public void setBasePriceList(PriceList basePriceList) {
+        this.basePriceList = basePriceList;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setBase(BaseOfPriceList base) {
+        this.base = base;
     }
 
-    public String getListPrice() {
-        return listPrice;
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
     }
 
-    public void setListPrice(String listPrice) {
-        this.listPrice = listPrice;
+    public void setDiscountPercentage(BigDecimal discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
-    public String getListPriceFinal() {
-        return listPriceFinal;
+    public Map<Product, BigDecimal> getProductPrice() {
+        return productPrice;
     }
 
-    public void setListPriceFinal(String listPriceFinal) {
-        this.listPriceFinal = listPriceFinal;
+    public void addProductToPriceList(Product product, BigDecimal price) {
+        this.productPrice.put(product, price);
     }
+
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Entity
 //@DiscriminatorValue("WINE")
-public class Wine extends Product {
+public class Wine extends Product implements Comparable<Product> {
 
     @Autowired
     @Transient
@@ -84,5 +84,10 @@ public class Wine extends Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return super.compareTo(o);
     }
 }
