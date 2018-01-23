@@ -20,6 +20,9 @@ public class WineService {
     private WineRepository wineRepository;
     @Autowired
     private CellarRepository cellarRepository;
+    @Autowired
+    private PriceListService priceListService;
+
 
     public List<Wine> getAllWines(){
         return wineRepository.findAll();
@@ -33,32 +36,27 @@ public class WineService {
         Wine wine = wrapper.getWine();
         wine.setCellar(cellar);
         wine.addPrice(new Date(), wrapper.getPrice());
-        return wineRepository.save(wine);
+        Wine newWine = wineRepository.save(wine);
+        priceListService.addProductToPriceLists(newWine);
+        return newWine;
     }
 
     public Wine updateWine(Integer id, WineWrapper wrapper) throws CellarNotFoundException, WineNotFoundException {
         Wine wineData = wineRepository.findOne(id);
-        if(wineData == null){
+        if(wineData == null)
             throw new WineNotFoundException("Wine "+id+" does not exists.");
-        }
+
         if (wrapper.getCellarId()!=null) {
             Cellar cellar = cellarRepository.findOne(wrapper.getCellarId());
-            if (cellar == null) {
+            if (cellar == null)
                 throw new CellarNotFoundException("Cellar "+wrapper.getCellarId()+" does not exists.");
-            } else {
+            else
                 wineData.setCellar(cellar);
-            }
         }
 
-        if (wrapper.getWine().getName()!=null){
-            wineData.setName(wrapper.getWine().getName());
-        }
-        if (wrapper.getWine().getVariety()!=null){
-            wineData.setVariety(wrapper.getWine().getVariety());
-        }
-        if (wrapper.getWine().getQuantityPerBox()!=0){
-            wineData.setQuantityPerBox(wrapper.getWine().getQuantityPerBox());
-        }
+        if (wrapper.getWine().getName()!=null) wineData.setName(wrapper.getWine().getName());
+        if (wrapper.getWine().getVariety()!=null) wineData.setVariety(wrapper.getWine().getVariety());
+        if (wrapper.getWine().getQuantityPerBox()!=0) wineData.setQuantityPerBox(wrapper.getWine().getQuantityPerBox());
         return wineRepository.save(wineData);
     }
 

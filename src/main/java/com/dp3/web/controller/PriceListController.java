@@ -29,7 +29,7 @@ public class PriceListController {
     @GetMapping("/")
     public ModelAndView getView(Model model){
         ModelAndView list = new ModelAndView("pricelist");
-        model.addAttribute("priceListWrapper", new PriceList());
+        model.addAttribute("priceList", new PriceList());
         model.addAttribute("lists", priceListService.findAll());
         return list;
     }

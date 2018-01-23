@@ -1,9 +1,7 @@
 package com.dp3.service;
 
 import com.dp3.dao.PriceListRepository;
-import com.dp3.domain.BaseOfPriceList;
-import com.dp3.domain.PriceList;
-import com.dp3.domain.Product;
+import com.dp3.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,10 +24,15 @@ public class PriceListService {
     public PriceList createNewPriceList(PriceList newPriceList){
         List<Product> products = productService.findAll();
         for (Product product: products) {
-            newPriceList.addProductToPriceList(product, newPriceList.getBase() == BaseOfPriceList.ORIGINAL_PRICE ?
-                    getPriceFromOriginalPrice(product, newPriceList) : getPriceFromOtherList(product, newPriceList.getBasePriceList()));
+            newPriceList.addProductToPriceList(product, getPrice(newPriceList, product));
         }
         return priceListRepository.save(newPriceList);
+    }
+
+    private BigDecimal getPrice(PriceList priceList, Product product) {
+        return priceList.getBase() == BaseOfPriceList.ORIGINAL_PRICE ?
+                getPriceFromOriginalPrice(product, priceList) :
+                getPriceFromOtherList(product, priceList.getBasePriceList());
     }
 
     private BigDecimal getPriceFromOtherList(Product product, PriceList basePriceList) {
@@ -62,5 +65,12 @@ public class PriceListService {
 
     public PriceList findById(Integer id) {
         return priceListRepository.findOne(id);
+    }
+
+    public void addProductToPriceLists(Product product) {
+        for (PriceList priceList: findAll()) {
+            priceList.addProductToPriceList(product, getPrice(priceList, product));
+            priceListRepository.save(priceList);
+        }
     }
 }
