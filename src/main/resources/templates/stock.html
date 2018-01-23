@@ -99,27 +99,12 @@
                         <td th:text="${stock.cellar.cellarName}"></td>
                         <td th:text="${stock.name}"></td>
                         <td th:text="${stock.variety}"></td>
-                        <td>
-                            <form role="form">
-                                <div class="row">
-                                    <input class="form-control col-lg-6"
-                                           type="number"
-                                           th:value="${stock.quantityPerBox}" id="quantityPerBox" name="quantityPerBox" />
-                                </div>
-                            </form>
-                        </td>
-                        <td>
-                            <form role="form">
-                                <div class="row">
-                                    <input class="form-control col-lg-6"
-                                           type="number"
-                                           th:value="${stock.quantityOnStock}" id="quantityOnStock" name="quantityOnStock" />
-                                </div>
-                            </form>
-                        </td>
+                        <td th:text="${stock.quantityPerBox}"></td>
+                        <td th:text="${stock.quantityOnStock}"></td>
+
                         <!--<td th:text="${stock.price}"></td>-->
                         <td>
-                            <button type="button" class="btn btn-outline-danger" th:attr="id=${stock.productId}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
+                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.productId}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
                                 Borrar
                             </button>
 
@@ -129,10 +114,9 @@
                                     var body = document.getElementById('editionDetails');
                                     body.innerHTML= ''+
                                         '<div class="form-group">'+
-                                             '</form>'+
                                                      '<form id="editionForm" name="editionForm" method="post" action="/stock/delete/'+ elems.id + '">'+
                                                         '<div class="alert alert-danger" role="alert">'+
-                                                            '<strong>Cuidado!</strong> Estas a punto de borrar un stock. Queres contuar?.'+
+                                                            '<strong>Zona de peligro!</strong> Desea borrar este producto?'+
                                                         '</div>'+
                                                          '<button type="submit" id="btn-delete" class="btn btn-outline-danger" />Borrar' +
                                                      '</form>'+
@@ -191,11 +175,23 @@
                             <h4 class="modal-title">Editar</h4>
                             <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
                         </div>
-                            <div id="editionDetails" class="modal-body">
-                            </div>
-                        <div class="modal-footer">
-                            <button  type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <div class="modal-body">
+                            <form  id="editStockForm" action="#" th:action="@{/stock/editStock}" method="post" name="stockForm">
+                                <div class="form-group">
+                                    <i class="fa fa-archive" aria-hidden="true"></i><label for="quantityOnStockBox">  Cantidad de cajas</label>
+                                    <input type="number" class="form-control" id="quantityOnStockBox" placeholder="1,2,3...90..." name="quantityOnStockBox"/><br />
+                                    <i class="fa fa-glass" aria-hidden="true"></i><label for="quantityOnStockBox">  Cantidad de botellas</label>
+                                    <input type="number" class="form-control" id="quantityOnStockBottle" placeholder="1,2,3...90..." name="quantityOnStockBottle"/><br />
+                                    <button type="submit" id="stockSubmit"  class="btn btn-outline-info" >Editar</button>
+                                </div>
+                            </form>
                         </div>
+
+                        <div class="modal-body">
+                            <div id="editionDetails">
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
