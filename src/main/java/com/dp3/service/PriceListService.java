@@ -20,6 +20,8 @@ public class PriceListService {
     @Autowired
     private ProductService productService;
 
+    private static final BigDecimal TOTAL_PORCENTAGE = BigDecimal.valueOf(100);
+
     @Transactional
     public PriceList createNewPriceList(PriceList newPriceList){
         List<Product> products = productService.findAll();
@@ -32,12 +34,18 @@ public class PriceListService {
 
     private BigDecimal getPriceFromOtherList(Product product, PriceList basePriceList) {
         return getProductPrice(product, basePriceList)
-                .multiply(basePriceList.getDiscountPercentage()).setScale(2, RoundingMode.HALF_EVEN);
+                .multiply(convertPorcentageToMultiplier(basePriceList.getDiscountPercentage()))
+                .setScale(2, RoundingMode.HALF_EVEN);
     }
 
     private BigDecimal getPriceFromOriginalPrice(Product product, PriceList basePriceList) {
         return productService.getEffectivePrice(product)
-                .multiply(basePriceList.getDiscountPercentage()).setScale(2, RoundingMode.HALF_EVEN);
+                .multiply(convertPorcentageToMultiplier(basePriceList.getDiscountPercentage()))
+                .setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    private BigDecimal convertPorcentageToMultiplier(BigDecimal porcentage) {
+        return TOTAL_PORCENTAGE.subtract(porcentage).divide(TOTAL_PORCENTAGE).setScale(2, RoundingMode.HALF_EVEN);
     }
 
     private BigDecimal getProductPrice(Product product, PriceList priceList) {

@@ -101,7 +101,7 @@ public class DbSeeder implements CommandLineRunner {
         list.setDescription("Lista Minorista");
         list.setBase(BaseOfPriceList.ORIGINAL_PRICE);
         list.setBasePriceList(null);
-        list.setDiscountPercentage(new BigDecimal(0.90));
+        list.setDiscountPercentage(new BigDecimal(10));
         priceListService.createNewPriceList(list);
         priceLists.add(list);
         priceListRepository.saveAndFlush(list);
@@ -110,7 +110,7 @@ public class DbSeeder implements CommandLineRunner {
         list.setDescription("Lista Mayorista");
         list.setBase(BaseOfPriceList.PRICE_LIST);
         list.setBasePriceList(priceLists.get(0));
-        list.setDiscountPercentage(new BigDecimal(0.90));
+        list.setDiscountPercentage(new BigDecimal(10));
         priceListService.createNewPriceList(list);
         priceLists.add(list);
         priceListRepository.save(list);

@@ -118,25 +118,21 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <!--
-
-                            // TODO REVISAR ESTO
                             <form id="listForm" action="#"  th:action="@{/lists/create}" th:object="${priceListWrapper}" method="post" name="listForm">
                                 <div class="form-group">
                                     <label for="listName">Nombre de la Lista</label>
-                                    <input type="text" class="form-control" th:field="*{listWrapper.priceList.description}" id="listName" name="listName" placeholder="Lista de amigos"><br />
+                                    <input type="text" class="form-control" th:field="*{description}" id="listName" name="listName" placeholder="Lista de amigos"><br />
                                     <label for="discount">Porcentaje aplicado %</label>
-                                    <input type="number" step=".01" class="form-control"  th:field="*{listWrapper.discount}"  id="discount" name="discount"/><br />
+                                    <input type="number" step=".01" class="form-control"  th:field="*{discountPercentage}"  id="discount" name="discount"/><br />
                                     <label for="origen">Origen de la lista</label>
-                                    <select class="form-control" th:field="*{listWrapper.priceList.base}" name="origen" id="origen">
-                                        <option th:each="thisBase : ${bases}"
-                                                th:value="${thisBase.cellarId}"
-                                                th:select="${thisBase.cellarId}"
-                                                th:text="#{${'thisBase.base.' + thisBase.base}}">
+                                    <select class="form-control" th:field="*{base}" name="origen" id="origen">
+                                        <option th:each="base : ${T(com.dp3.domain.BaseOfPriceList).values()}"
+                                                th:value="${base}"
+                                                th:text="#{${'priceList.base.' + base}}">
                                         </option>
                                     </select><br />
                                     <label for="baseList">Lista</label>
-                                    <select class="form-control" th:field="*{listWrapper.baseListId}" name="baseList" id="baseList">
+                                    <select class="form-control" th:field="*{basePriceList}" name="baseList" id="baseList">
                                         <option th:each="lists : ${lists}"
                                                 th:value="${lists.id}"
                                                 th:select="${lists.id}"
@@ -146,7 +142,6 @@
                                     <button type="submit" id="listSubmit"  class="btn btn-primary" >Guardar</button>
                                 </div>
                             </form>
-                            -->
                         </div>
                         <div class="modal-footer">
                             <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>

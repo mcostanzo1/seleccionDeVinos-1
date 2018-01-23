@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,8 +29,7 @@ public class PriceListController {
     @GetMapping("/")
     public ModelAndView getView(Model model){
         ModelAndView list = new ModelAndView("pricelist");
-        model.addAttribute("priceListWrapper", new PriceListWrapper());
-        model.addAttribute("bases", Arrays.asList(BaseOfPriceList.values()));
+        model.addAttribute("priceListWrapper", new PriceList());
         model.addAttribute("lists", priceListService.findAll());
         return list;
     }
@@ -48,7 +48,7 @@ public class PriceListController {
     public ModelAndView createList(Model model, @ModelAttribute PriceList priceList){
         priceListService.createNewPriceList(priceList);
         model.addAttribute("lists", priceListService.findAll());
-        return new ModelAndView("redirect:/lists/all");
+        return new ModelAndView("redirect:/lists/");
     }
 
     @GetMapping(value = "/{id}")
@@ -70,7 +70,7 @@ public class PriceListController {
     @RequestMapping(value = "/delete/{id}")
     public ModelAndView deleteStock(Model model,@PathVariable("id") Integer id){
         priceListService.delete(id);
-        return new ModelAndView("redirect:/lists/all");
+        return new ModelAndView("redirect:/lists/");
     }
 
 }
