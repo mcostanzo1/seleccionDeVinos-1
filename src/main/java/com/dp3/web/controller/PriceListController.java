@@ -1,10 +1,9 @@
 package com.dp3.web.controller;
 
-import com.dp3.dao.PriceListRepository;
 import com.dp3.domain.BaseOfPriceList;
 import com.dp3.domain.PriceList;
 import com.dp3.service.PriceListService;
-import com.dp3.web.wrapper.PriceListWrapper;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,6 +69,11 @@ public class PriceListController {
     public ModelAndView deleteStock(Model model,@PathVariable("id") Integer id){
         priceListService.delete(id);
         return new ModelAndView("redirect:/lists/");
+    }
+
+    @GetMapping(value = "/printOrder", produces = "application/pdf")
+    public ResponseEntity<byte[]> getPDF(@ModelAttribute PriceList priceList) throws DocumentException {
+        return null;
     }
 
 }

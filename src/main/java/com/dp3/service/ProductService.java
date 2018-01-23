@@ -46,4 +46,11 @@ public class ProductService {
         prod.setQuantityOnStock(prod.getQuantityPerBox()-detail.getQuantity());
         productRepository.save(prod);
     }
+
+    @Transactional
+    public void returnStock(OrderDetail detail) {
+        Product prod = detail.getProduct();
+        prod.setQuantityOnStock(prod.getQuantityPerBox()+detail.getQuantity());
+        productRepository.save(prod);
+    }
 }

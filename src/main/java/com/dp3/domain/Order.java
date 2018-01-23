@@ -1,5 +1,7 @@
 package com.dp3.domain;
 
+import com.dp3.printable.Printable;
+import com.lowagie.text.Document;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -7,7 +9,7 @@ import java.util.*;
 
 @Entity()
 @Table(name = "orders")
-public class Order {
+public class Order implements Printable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +25,7 @@ public class Order {
     @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<OrderDetail> details = new ArrayList<>();
     private OrderStatus status;
+    private Date deliveryDate;
     private Date created = new Date();
     private Date lastUpdated = new Date();
 
@@ -68,6 +71,14 @@ public class Order {
         this.status = status;
     }
 
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
     public Date getCreated() {
         return created;
     }
@@ -90,5 +101,15 @@ public class Order {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public Document getDocument(Document doc) {
+        return doc;
+    }
+
+    @Override
+    public String getPdfName() {
+        return this.getClient().getName().concat("-").concat(String.valueOf(this.getOrderId()));
     }
 }

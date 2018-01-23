@@ -1,6 +1,8 @@
 package com.dp3.domain;
 
 
+import com.dp3.printable.Printable;
+import com.lowagie.text.Document;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.collection.internal.PersistentMap;
 
@@ -12,7 +14,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Entity
-public class PriceList {
+public class PriceList implements Printable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -79,4 +81,13 @@ public class PriceList {
         this.productPrice.put(product, price);
     }
 
+    @Override
+    public Document getDocument(Document doc) {
+        return doc;
+    }
+
+    @Override
+    public String getPdfName() {
+        return this.description;
+    }
 }
