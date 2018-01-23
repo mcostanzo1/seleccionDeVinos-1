@@ -1,7 +1,7 @@
 package com.dp3.security;
 
 import com.dp3.domain.User;
-import com.dp3.service.UsuarioService;
+import com.dp3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 public class CustomUserAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
 	@Autowired
-	public UsuarioService usuarioService;
+	public UserService userDetailsService;
 
 	@Override
 	protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken arg1)
 			throws AuthenticationException {
 		System.out.println("> retrieveUser: Primer parametro: "+username+" Segundo parámetro: "+arg1);
-		User user = (User) this.usuarioService.loadUserByUsername(username);
+		User user = (User) this.userDetailsService.loadUserByUsername(username);
 		System.out.println("< retrieveUser");
 		return user;
 	}

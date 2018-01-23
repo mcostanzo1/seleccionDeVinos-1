@@ -26,10 +26,10 @@ public abstract class Product implements Comparable<Product> {
     protected String name;
 
     @Column(nullable = false)
-    protected int quantityPerBox;
+    protected Integer quantityPerBox;
 
     @Column(nullable = false)
-    protected int quantityOnStock;
+    protected Integer quantityOnStock;
 
     @OneToMany
     @Cascade(value= org.hibernate.annotations.CascadeType.ALL)
@@ -54,19 +54,19 @@ public abstract class Product implements Comparable<Product> {
         this.name = name;
     }
 
-    public int getQuantityPerBox() {
+    public Integer getQuantityPerBox() {
         return quantityPerBox;
     }
 
-    public void setQuantityPerBox(int quantityPerBox) {
+    public void setQuantityPerBox(Integer quantityPerBox) {
         this.quantityPerBox = quantityPerBox;
     }
 
-    public int getQuantityOnStock() {
+    public Integer getQuantityOnStock() {
         return quantityOnStock;
     }
 
-    public void setQuantityOnStock(int quantityOnStock) {
+    public void setQuantityOnStock(Integer quantityOnStock) {
         this.quantityOnStock = quantityOnStock;
     }
 
@@ -87,8 +87,9 @@ public abstract class Product implements Comparable<Product> {
 
     @Override
     public boolean equals(Object obj) {
-        Product prod = (Product) obj;
-        return this.productId == prod.productId;
+        LOGGER.info("equals de Product !!! ");
+        Product o = (Product) obj;
+        return this.productId.compareTo(o.productId) == 0 ? true : false;
     }
 }
 
