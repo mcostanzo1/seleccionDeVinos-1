@@ -33,8 +33,31 @@
 
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" id="theWineSearch" onkeyup='searchTable()' placeholder="Buscador...">
+            <script>
+                function searchTable() {
+                    var input, filter, found, table, tr, td, i, j;
+                    input = document.getElementById("theWineSearch");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("clientTable");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td");
+                        for (j = 0; j < td.length; j++) {
+                            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                found = true;
+                            }
+                        }
+                        if (found) {
+                            tr[i].style.display = "";
+                            found = false;
+                        } else {
+                            if (tr[i].id !== 'id02'){tr[i].style.display = "none";}
+                        }
+                    }
+                }
+
+            </script>
         </form>
     </div>
 </nav>
@@ -51,7 +74,7 @@
             <!-- Client Table -->
             <table id="clientTable" class="table">
                 <thead class="thead-dark">
-                <tr>
+                <tr id="id02">
                     <th scope="col" hidden>Código de cliente <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Nombre <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Teléfono <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
