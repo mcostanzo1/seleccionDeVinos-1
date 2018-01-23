@@ -3,20 +3,17 @@ package com.dp3.service;
 import com.dp3.dao.UserRepository;
 import com.dp3.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("userDetailsService")
-public class UsuarioServiceImpl implements UsuarioService {
-	
+public class UserService implements UserDetailsService {
+
+    @Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	public UsuarioServiceImpl(UserRepository repo) {
-		userRepository = repo;
-	}
-
 	@Transactional(readOnly=true)
 	@Override
 	public User loadUserByUsername(final String username) throws UsernameNotFoundException {

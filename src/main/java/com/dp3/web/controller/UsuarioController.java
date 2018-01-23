@@ -1,6 +1,7 @@
 package com.dp3.web.controller;
 
-import com.dp3.service.UsuarioService;
+import com.dp3.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,12 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UsuarioController {
 	
 //	private static final Log LOGGER = LogFactory.getLog(UsuarioController.class);
-	
-	UsuarioService usuarioService;
-	
-	public UsuarioController(UsuarioService service) {
-		usuarioService = service;
-	}
+
+    @Autowired
+    UserService userDetailsService;
 	
 //	@RequestMapping(value = "/{idUser}", method = RequestMethod.GET)
 //	public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable("idUser") Integer id) {

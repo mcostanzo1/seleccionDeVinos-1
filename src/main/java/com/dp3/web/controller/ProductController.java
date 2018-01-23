@@ -5,13 +5,13 @@ import com.dp3.dao.ProductRepository;
 import com.dp3.domain.Cellar;
 import com.dp3.domain.Product;
 import com.dp3.domain.Wine;
+import com.dp3.service.CellarService;
+import com.dp3.service.ProductService;
+import com.dp3.web.wrapper.ProductWrapper;
 import com.dp3.web.wrapper.WineWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -22,17 +22,22 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
     @Autowired
-    private CellarRepository cellarRepository;
+    private CellarService cellarService;
 
     @GetMapping("/all")
     public ModelAndView getAllProducts(Model model){
         model.addAttribute("cellar", new Cellar());
         model.addAttribute("wineWrapper", new WineWrapper());
-        model.addAttribute("stockList", productRepository.findAll());
-        model.addAttribute("cellars", cellarRepository.findAll());
+        model.addAttribute("stockList", productService.findAll());
+        model.addAttribute("cellars", cellarService.findAll());
         return new ModelAndView("stock");
     }
 
+    @PostMapping("/edit/")
+    public ModelAndView editProduct(@ModelAttribute ProductWrapper wrapper) {
+        productService.addStock(wrapper);
+        return new ModelAndView("redirect:/products/all");
+    }
 }
