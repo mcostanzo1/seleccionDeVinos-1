@@ -68,7 +68,7 @@
 
 <div class="container">
     <p> </p>
-    <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Hola, estos son tus pedidos:</h1>
+    <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Hola, estos son tus pedidos de hoy:</h1>
     <!-- Trigger the modal with a button -->
     <p> </p>
 
@@ -85,55 +85,60 @@
                 <tbody>
                 <tr th:each="stock : ${stockList}" id="id01">
                     <td  th:text="${stock.productId}">
-                        <div class="alert alert-danger" role="alert">
-                            <strong>Tucuman 2062 pb 2</strong>
-                            <p> </p>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <form>
-                                            <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
-                                        </form>
+                        <div class="card" style="width: 20rem;">
+                            <div class="card-block">
+                                <h4 class="card-title">Tucuman 2062 pb 2</h4>
+                                <p> </p>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <form>
+                                                <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <form>
+                                                <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
                                     </div>
-
-                                    <div class="col-md-6">
-                                        <form>
-                                            <button class="btn btn-outline-info" href="/orders/new" type="button">En bodega</button>
-                                        </form>
-                                    </div>
-                                </div>
+                            </div>
                         </div>
-                        <div class="alert alert-danger" role="alert">
+                        <p>
+
+                        </p>
+                        <div class="card">
                             <strong>Boyaca 473 6to B</strong>
                             <p> </p>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
-
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-info" href="/orders/new" type="button">En bodega</button>
+                                        <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="alert alert-danger" role="alert">
+                        <p>
+
+                        </p>
+                        <div class="card">
                             <strong>Boyaca 473 7to A</strong>
                             <p> </p>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <form>
-                                        <button class="btn btn-outline-info" href="/orders/new" type="button">En bodega</button>
-                                    </form>
-                                </div>
+                                <div class="col-md-2">
+                                <form>
+                                    <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
                             </div>
                         </div>
                     </td>
@@ -153,19 +158,19 @@
                 <tbody>
                 <tr th:each="stock : ${stockList}" id="id01">
                     <td  th:text="${stock.productId}">
-                        <div class="alert alert-warning" role="alert">
+                        <div class="card">
+
                             <strong>Colombres 118 5to B</strong>
                             <p> </p>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-info" href="/orders/new" type="button">Listo para entregar</button>
+                                        <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -176,7 +181,7 @@
             </table>
         </div>
         <div class="col-md-4">
-            <table class="table" id="paraArmar">
+            <table class="table" id="paraEntregar">
                 <thead class="thead-dark">
                 <tr id="id02">
                     <th scope="col">Listo para entregar<span></span> </th>
@@ -185,35 +190,38 @@
                 <tbody>
                 <tr th:each="stock : ${stockList}" id="id01">
                     <td  th:text="${stock.productId}">
-                        <div class="alert alert-success" role="alert">
+                        <div class="card">
+
                             <strong>Arenales 3245</strong>
                             <p> </p>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <form>
-                                        <button class="btn btn-outline-info" href="/orders/new" type="button">Entregado!</button>
+                                        <button class="btn btn-outline-success" href="" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
                                     </form>
                                 </div>
                             </div>
-                        </div><div class="alert alert-success" role="alert">
+                        </div>
+                        <p>
+
+                        </p>
+                        <div class="card">
                         <strong>gascon 245</strong>
                         <p> </p>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <form>
-                                    <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                    <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                                 </form>
                             </div>
-
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <form>
-                                    <button class="btn btn-outline-info" href="/orders/new" type="button">Entregado!</button>
+                                    <button class="btn btn-outline-success" href="" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </div>
