@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+
+<html  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Products</title>
+    <meta charset="utf-8" />
+    <script src="https://use.fontawesome.com/33078ec2bc.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"/>
+</head>
+<body>
+<!--Nav-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">selecciondevinos.com</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/start">Stock</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/client/">Clientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/lists/">Listas de precios</a>
+            </li>
+            <form class="form-inline">
+                <button class="btn btn-outline-success" href="/orders/new" type="button">NUEVO PEDIDO</button>
+            </form>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" id="theWineSearch" onkeyup='searchTable()' placeholder="Buscador...">
+            <script>
+                function searchTable() {
+                    var input, filter, found, table, tr, td, i, j;
+                    input = document.getElementById("theWineSearch");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("stockTable");
+                    tr = table.getElementsByTagName("tr");
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td");
+                        for (j = 0; j < td.length; j++) {
+                            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                found = true;
+                            }
+                        }
+                        if (found) {
+                            tr[i].style.display = "";
+                            found = false;
+                        } else {
+                            if (tr[i].id !== 'id02'){tr[i].style.display = "none";}
+                        }
+                    }
+                }
+
+            </script>
+        </form>
+    </div>
+</nav>
+
+
+
+
+
+<div class="container">
+    <p> </p>
+    <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Hola, estos son tus pedidos:</h1>
+    <!-- Trigger the modal with a button -->
+    <p> </p>
+
+    <div  class="row">
+        <div class="col-md-4">
+
+
+            <table class="table" id="paraArmar">
+                <thead class="thead-dark">
+                <tr id="id02">
+                    <th scope="col">Para armar<span></span> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stock : ${stockList}" id="id01">
+                    <td  th:text="${stock.productId}">
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Tucuman 2062 pb 2</strong>
+                            <p> </p>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <form>
+                                            <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                        </form>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <form>
+                                            <button class="btn btn-outline-info" href="/orders/new" type="button">En bodega</button>
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Boyaca 473 6to B</strong>
+                            <p> </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <form>
+                                        <button class="btn btn-outline-info" href="/orders/new" type="button">En bodega</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Boyaca 473 7to A</strong>
+                            <p> </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form>
+                                        <button class="btn btn-outline-info" href="/orders/new" type="button">En bodega</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="col-md-4">
+            <table class="table" id="enBodega">
+                <thead class="thead-dark">
+                <tr id="id02">
+                    <th scope="col">En bodega<span></span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stock : ${stockList}" id="id01">
+                    <td  th:text="${stock.productId}">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Colombres 118 5to B</strong>
+                            <p> </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <form>
+                                        <button class="btn btn-outline-info" href="/orders/new" type="button">Listo para entregar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="table" id="paraArmar">
+                <thead class="thead-dark">
+                <tr id="id02">
+                    <th scope="col">Listo para entregar<span></span> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stock : ${stockList}" id="id01">
+                    <td  th:text="${stock.productId}">
+                        <div class="alert alert-success" role="alert">
+                            <strong>Arenales 3245</strong>
+                            <p> </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form>
+                                        <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <form>
+                                        <button class="btn btn-outline-info" href="/orders/new" type="button">Entregado!</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div><div class="alert alert-success" role="alert">
+                        <strong>gascon 245</strong>
+                        <p> </p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <form>
+                                    <button class="btn btn-outline-danger" href="/orders/new" type="button">Cancelar</button>
+                                </form>
+                            </div>
+
+                            <div class="col-md-3">
+                                <form>
+                                    <button class="btn btn-outline-info" href="/orders/new" type="button">Entregado!</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+</body>
+</html>
