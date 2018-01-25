@@ -66,16 +66,15 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
     <p> </p>
     <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Hola, estos son tus pedidos de hoy:</h1>
     <!-- Trigger the modal with a button -->
     <p> </p>
 
     <div  class="row">
+
         <div class="col-md-4">
-
-
             <table class="table" id="paraArmar">
                 <thead class="thead-dark">
                 <tr id="id02">
@@ -83,64 +82,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="stock : ${stockList}" id="id01">
-                    <td  th:text="${stock.productId}">
-                        <div class="card" style="width: 20rem;">
-                            <div class="card-block">
-                                <h4 class="card-title">Tucuman 2062 pb 2</h4>
-                                <p> </p>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <form>
-                                                <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                            </form>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <form>
-                                                <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
-                        <p>
+                <tr th:each="stock : ${stockList}" id="tbody-paraArmar">
+                    <td  th:text="${}">
+                        <div class="alert alert-dark" role="alert">
+                            <div clas="row">
+                                <div class="col-sm">
+                                    <h4 class="card-title">Martin De Petris</h4>
+                                    <p> class="card-title">1151754635</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4 class="card-title">Dirección:</h4>
+                                    <h1 class="card-title">Boyacá 473 6to B</h1>
+                                    <h3 class="card-title">$356,56</h3>
+                                </div>
 
-                        </p>
-                        <div class="card">
-                            <strong>Boyaca 473 6to B</strong>
-                            <p> </p>
                             <div class="row">
                                 <div class="col-md-2">
                                     <form>
                                         <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                        <label>Cancelar pedido</label>
                                     </form>
                                 </div>
                                 <div class="col-md-2">
                                     <form>
                                         <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <label>Enviar a bodega</label>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <p>
 
-                        </p>
-                        <div class="card">
-                            <strong>Boyaca 473 7to A</strong>
-                            <p> </p>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                                <div class="col-md-2">
-                                <form>
-                                    <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            </div>
                         </div>
+
                     </td>
                 </tr>
                 </tbody>
@@ -151,81 +123,32 @@
         <div class="col-md-4">
             <table class="table" id="enBodega">
                 <thead class="thead-dark">
-                <tr id="id02">
+                <tr>
                     <th scope="col">En bodega<span></span></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="stock : ${stockList}" id="id01">
-                    <td  th:text="${stock.productId}">
-                        <div class="card">
-
-                            <strong>Colombres 118 5to B</strong>
-                            <p> </p>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                                <div class="col-md-2">
-                                    <form>
-                                        <button class="btn btn-outline-success" href="/orders/new" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                <tr th:each="stock : ${stockList}" id="tbody-enbodega">
+                    <td  th:text="${}">
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+
+
         <div class="col-md-4">
             <table class="table" id="paraEntregar">
                 <thead class="thead-dark">
-                <tr id="id02">
+                <tr>
                     <th scope="col">Listo para entregar<span></span> </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="stock : ${stockList}" id="id01">
-                    <td  th:text="${stock.productId}">
-                        <div class="card">
+                <tr th:each="stock : ${stockList}" id="tbody-listos">
+                    <td  th:text="${}">
 
-                            <strong>Arenales 3245</strong>
-                            <p> </p>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <form>
-                                        <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                                <div class="col-md-2">
-                                    <form>
-                                        <button class="btn btn-outline-success" href="" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-
-                        </p>
-                        <div class="card">
-                        <strong>gascon 245</strong>
-                        <p> </p>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <form>
-                                    <button class="btn btn-outline-danger" href="/orders/new" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="col-md-2">
-                                <form>
-                                    <button class="btn btn-outline-success" href="" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                     </td>
                 </tr>
                 </tbody>
