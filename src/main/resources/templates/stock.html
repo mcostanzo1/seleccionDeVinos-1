@@ -4,10 +4,17 @@
 <head>
     <title>Products</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{/img/favicon.ico}" rel="shortcut icon"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/33078ec2bc.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"/>
+    <!-- Latest compiled and minified CSS -->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">-->
+    <!-- Latest compiled and minified JavaScript -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>-->
 </head>
 <body>
         <!--Nav-->
@@ -19,21 +26,43 @@
 
             <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/start">Stock</a>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/orders/">Pedidos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/client/">Clientes</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/products/">Stock</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/lists/">Listas de precios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clients/">Clientes</a>
                     </li>
                     <form class="form-inline">
                         <button class="btn btn-outline-success" href="/orders/new" type="button">NUEVO PEDIDO</button>
                     </form>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" id="theWineSearch" onkeyup='searchTable()' placeholder="Buscador...">
+                <form name="logoutForm" th:action="@{/logout}" method="POST" th:hidden="true">
+                    <button id="logout" hidden="true" type="submit" class="btn-link"></button>
+                </form>
+            </div>
+        </nav>
+
+        <p> </p>
+
+        <div class="container ">
+            <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Stock</h1>
+            <!-- Trigger the modal with a button -->
+            <div class="row py-1 my-1 px-1">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-success form-control" aria-hidden="true" data-toggle="modal" data-target="#newCellar">Nueva Bodega</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-success form-control" aria-hidden="true" data-toggle="modal" data-target="#newWine">Nuevo Vino</button>
+                </div>
+
+                <div class=" col-6">
+                    <input class="form-control float-right" type="search" id="theWineSearch" aria-hidden="true" onkeyup='searchTable()' placeholder="Buscador...">
                     <script>
                         function searchTable() {
                             var input, filter, found, table, tr, td, i, j;
@@ -58,27 +87,11 @@
                         }
 
                     </script>
-                </form>
+                </div>
             </div>
-        </nav>
-
-
-
-
-
-        <div class="container">
             <p> </p>
-            <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Stock</h1>
-            <!-- Trigger the modal with a button -->
-
-            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newCellar">Nueva Bodega</button>
-            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newWine">Nuevo Vino</button>
-             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newStock">Agregar Stock</button>
-
             <p> </p>
 
-
-            <p> </p>
             <!-- Stock Table -->
             <table class="table" id="stockTable">
                 <thead class="thead-dark">
@@ -104,10 +117,7 @@
 
                         <!--<td th:text="${stock.price}"></td>-->
                         <td>
-                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.productId}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">
-                                Borrar
-                            </button>
-
+                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.productId}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">Editar</button>
                             <script>
                                 function myFunction(productId) {
                                     var elems= document.getElementById(productId);
@@ -173,7 +183,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Editar</h4>
-                            <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <form  id="editStockForm" action="#" th:action="@{/stock/editStock}" method="post" name="stockForm">
@@ -197,44 +209,6 @@
                 </div>
             </div>
 
-            <!-- Stock Modal -->
-
-            <div id="newStock" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Nuevo Stock</h4>
-                            <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <form  id="stockForm" action="#" th:action="@{/stock/createStock}" method="post" name="stockForm">
-                                <div class="form-group">
-                                    <i class="fa fa-archive" aria-hidden="true"></i><label for="quantityOnStockBox">  Cantidad de cajas</label>
-                                    <input type="number" class="form-control" id="quantityOnStockBox" placeholder="1,2,3...90..." name="quantityOnStockBox"/><br />
-                                    <i class="fa fa-glass" aria-hidden="true"></i><label for="quantityOnStockBox">  Cantidad de botellas</label>
-                                    <input type="number" class="form-control" id="quantityOnStockBottle" placeholder="1,2,3...90..." name="quantityOnStockBottle"/><br />
-                                    <i class="fa fa-list-ul" aria-hidden="true"></i><label for="productName">  Producto</label>
-                                        <select class="form-control" name="productName" id="productName">
-                                            <option th:each="wine : ${wines}"
-                                                    th:value="${wine.wineName}"
-                                                    th:text="${wine.wineName}"
-                                                    th:select="${wine.wineName}">
-                                            </option>
-                                        </select><br />
-                                    <button type="submit" id="stockSubmit"  class="btn btn-outline-info" >Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button  type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
             <!-- Cellar Modal -->
             <div id="newCellar" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -243,7 +217,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Nueva Bodega</h4>
-                            <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <form  id="cellarForm" action="#" th:action="@{/cellar/create}" method="post" name="cellarForm">
@@ -274,7 +250,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Nuevo Vino</h4>
-                            <button type="button" class="Cerrar" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <form id="wineForm" action="#"  th:action="@{/wine/create}" th:object="${wineWrapper}" method="post" name="wineForm">
@@ -285,14 +263,12 @@
                                     <input type="text" class="form-control"  th:field="*{wine.variety}" placeholder="Malbec, Chardonnay..." id="variety" name="variety"/><br />
                                     <label for="quantityPerBox">Cantidad por caja</label>
                                     <input type="number" class="form-control" th:field="*{wine.quantityPerBox}" id="quantityPerBox" placeholder="6, 9, 12..." name="quantityPerBox"/><br />
-                                    <label for="cellar">Bodega</label>
-                                    <select class="form-control" name="cellar" id="cellar" th:field="*{cellarId}">
-                                            <option th:each="cellar : ${cellars}"
-                                                    th:value="${cellar.cellarId}"
-                                                    th:select="${cellar.cellarId}"
-                                                    th:text="${cellar.cellarName}">
-                                            </option>
-                                    </select><br />
+                                    <!--<div class="form-group">-->
+                                        <select class="form-control selectpicker cellar" data-live-search="true" name="cellar">
+                                            <option data-th-each="cellar : ${cellars}" data-th-value="${cellar.cellarId}" data-th-text="${cellar.cellarName}"></option>
+                                        </select>
+                                    <!--</div>-->
+                                    <br />
                                     <label for="price">Precio de Lista</label>
                                     <input type="number" step=".01" class="form-control"  th:field="*{price}" placeholder="150" id="price" name="price"/><br />
                                     <label for="wineDescription">Descripción</label>
@@ -311,8 +287,12 @@
 
 
         </div>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
 </body>
 </html>

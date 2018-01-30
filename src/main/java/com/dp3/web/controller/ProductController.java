@@ -26,13 +26,18 @@ public class ProductController {
     @Autowired
     private CellarService cellarService;
 
-    @GetMapping("/all")
-    public ModelAndView getAllProducts(Model model){
+    @GetMapping("/")
+    public ModelAndView getProducts(Model model){
         model.addAttribute("cellar", new Cellar());
         model.addAttribute("wineWrapper", new WineWrapper());
         model.addAttribute("stockList", productService.findAll());
         model.addAttribute("cellars", cellarService.findAll());
         return new ModelAndView("stock");
+    }
+
+    @GetMapping("/all")
+    public List<Product> getAllProducts(){
+        return productService.findAll();
     }
 
     @PostMapping("/edit/")

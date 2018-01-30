@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class OrderService {
 
@@ -30,6 +32,15 @@ public class OrderService {
     }
 
     @Transactional
+    public Order progressOrder(Integer orderId) {
+        Order order = orderRepository.findOne(orderId);
+        if (order!=null) {
+            order.setStatus(OrderStatus.IN_PROGRESS);
+        }
+        return orderRepository.save(order);
+    }
+
+    @Transactional
     public Order cancelOrder(Order order) {
         for (OrderDetail detail : order.getDetails()) {
             productService.returnStock(detail);
@@ -44,6 +55,12 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
+    }
 
+    public List<Order> getOrdersByStatus(OrderStatus status) {
+        return orderRepository.findByStatusOrderByDeliveryDateDesc(status);
+    }
 
 }

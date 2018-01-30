@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -25,6 +26,8 @@ public class DbSeeder implements CommandLineRunner {
     private PriceListRepository priceListRepository;
     @Autowired
     private PriceListService priceListService;
+    @Autowired
+    private OrderRepository orderRepository;
 
 	public DbSeeder(UserRepository usersRepository, WineRepository wineRepository, CellarRepository cellarRepository, ClientRepository clientRepository) {
 		this.usersRepository = usersRepository;
@@ -115,5 +118,40 @@ public class DbSeeder implements CommandLineRunner {
         priceLists.add(list);
         priceListRepository.save(list);
 
+
+        List<Order> orderList = new ArrayList<>();
+        Order order = new Order();
+        order.setClient(clients.get(0));
+        order.setPriceList(priceLists.get(0));
+        order.setStatus(OrderStatus.CREATED);
+        order.setCreated(new Date());
+        order.setOwner(users.get(0));
+        orderList.add(order);
+
+        order=new Order();
+        order.setClient(clients.get(1));
+        order.setPriceList(priceLists.get(1));
+        order.setStatus(OrderStatus.CREATED);
+        order.setCreated(new Date());
+        order.setOwner(users.get(0));
+        orderList.add(order);
+
+        order = new Order();
+        order.setClient(clients.get(1));
+        order.setPriceList(priceLists.get(1));
+        order.setStatus(OrderStatus.IN_PROGRESS);
+        order.setCreated(new Date());
+        order.setOwner(users.get(0));
+        orderList.add(order);
+
+        order = new Order();
+        order.setClient(clients.get(1));
+        order.setPriceList(priceLists.get(0));
+        order.setStatus(OrderStatus.FINISHED);
+        order.setCreated(new Date());
+        order.setOwner(users.get(0));
+        orderList.add(order);
+
+        orderRepository.save(orderList);
 	}
 }

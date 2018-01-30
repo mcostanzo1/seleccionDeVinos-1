@@ -19,6 +19,6 @@ public class LoginController {
 	
 	@GetMapping(value = "/start")
 	public ModelAndView start(HttpServletResponse response) {
-		return new ModelAndView("redirect:/products/all");
+		return new ModelAndView("redirect:/orders/");
 	}
 }

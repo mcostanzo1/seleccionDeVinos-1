@@ -15,7 +15,7 @@ public class HelloController {
 	@GetMapping(path="/")
 	public ModelAndView getMapping() {
 		LOGGER.info(log, "getMapping");
-		return new ModelAndView("index");
+		return new ModelAndView("login");
 	}
 	
 }

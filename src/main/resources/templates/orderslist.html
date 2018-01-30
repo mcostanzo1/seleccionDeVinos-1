@@ -2,12 +2,13 @@
 
 <html  xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Products</title>
+    <title>Pedidos</title>
     <meta charset="utf-8" />
     <script src="https://use.fontawesome.com/33078ec2bc.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"/>
+    <link th:href="@{/img/favicon.ico}" rel="shortcut icon"/>
 </head>
 <body>
 <!--Nav-->
@@ -20,13 +21,16 @@
     <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="/start">Stock</a>
+                <a class="nav-link" href="/orders/">Pedidos</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/client/">Clientes</a>
+            <li class="nav-item ">
+                <a class="nav-link" href="/products/">Stock</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/lists/">Listas de precios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/clients/">Clientes</a>
             </li>
             <form class="form-inline">
                 <button class="btn btn-outline-success" href="/orders/new" type="button">NUEVO PEDIDO</button>
@@ -68,7 +72,7 @@
 <div class="container">
     <p> </p>
     <p id="date"></p>
-    <h1><i class="fa fa-line-chart" aria-hidden="true"></i> Hola, estos son tus pedidos de hoy:</h1>
+    <h1><i class="fa fa-area-chart" aria-hidden="true"></i> Pedidos :</h1>
     <!-- Trigger the modal with a button -->
     <script>
         n =  new Date();
@@ -80,57 +84,58 @@
 
 
 
-    <div  class="row">
+    <div class="row">
 
         <div class="col-md-4">
             <table class="table" id="paraArmar">
                 <thead class="thead-dark">
-                <tr id="id02">
-                    <th scope="col">1. Para armar<span></span> </th>
-                </tr>
+                    <tr id="id02">
+                        <th scope="col">1. Para armar<span></span> </th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="stock : ${stockList}" id="tbody-paraArmar">
-                    <td  th:text="${}">
-                        <div class="alert alert-danger" role="alert">
-                            <div id="accordion"  href="#collapseArmado" role="tablist" aria-multiselectable="true">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingArmado">
-                                        <h5 class="mb-0">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseArmado" aria-expanded="false" aria-controls="collapseArmado">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                                Martin De Petris
-                                            </a>
-                                            <p> </p>
-                                            <div class="row">
-                                                <div class="col-sm">
-                                                    <form class="form-inline">
-                                                        <button class="btn btn-outline-success" href="" type="button">Listo!</button>
-                                                    </form>
+                    <tr th:each="stock : ${createdOrders}" id="tbody-paraArmar">
+                        <!--<td  th:text="${}">-->
+                            <div class="alert alert-danger" role="alert">
+                                <div id="accordion"  href="#collapseArmado" role="tablist">
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingArmado">
+                                            <h5 class="mb-0">
+                                                <div class="row">
+                                                    <a data-toggle="collapse" data-parent="#accordion" th:href="${'#' + stock.orderId}" >
+                                                        <i class="fa fa-user" ></i><span th:text="${' ' + stock.client.name}"></span>
+                                                    </a>
+
+                                                    <div class="col-sm">
+                                                        <form class="form-inline">
+                                                            <button class="btn btn-outline-success" th:action="@{/orders/details(orderId=${stock.orderId})}" method="POST" type="submit">Listo!</button>
+                                                        </form>
+                                                    </div>
+
+                                                    <div class="col-sm">
+                                                        <form class="form-inline">
+                                                            <button class="btn btn-outline-danger" th:href="@{/orders/cancel(orderId=${stock.orderId})}" th:href="@{/orders/details(orderId=${stock.orderId})}"  type="button">Cancelar</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
 
-                                                <div class="col-sm">
-                                                    <form class="form-inline">
-                                                        <button class="btn btn-outline-danger" href="" type="button">Cancelar</button>
-                                                    </form>
-                                                </div>
+
+                                            </h5>
+                                        </div>
+
+                                        <div th:attr="id=${stock.orderId}" class="collapse" role="tabpanel">
+                                            <div class="card-block">
+                                                <h3 class="text-center" th:text="${stock.client.name}"></h3>
+                                                <p class="text-center" th:text="${stock.client.phone}"></p>
+                                                <p class="text-center" th:text="${stock.client.address}"></p>
+                                                <p class="text-center" th:text="${stock.client.email}"></p>
                                             </div>
-                                        </h5>
-                                    </div>
-
-                                    <div id="collapseArmado" class="collapse" role="tabpanel" aria-labelledby="headingArmado">
-                                        <div class="card-block">
-                                            <h2 class="text-center">$356,56</h2>
-                                            <p class="text-center">1551754635</p>
-                                            <p class="text-center">boyaca 473 6to B</p>
-                                            <p class="text-center">Mdp@gmail.com</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        <!--</td>-->
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -147,12 +152,12 @@
                 <tr th:each="stock : ${stockList}" id="tbody-enbodega">
                     <td  th:text="${}">
                         <div class="alert alert-warning" role="alert">
-                            <div id="accordionBodega"  href="#collapseBodega" role="tablist" aria-multiselectable="true">
+                            <div id="accordionBodega"  href="#collapseBodega" role="tablist">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="headingBodega">
                                         <h5 class="mb-0">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseBodega" aria-expanded="false" aria-controls="collapseBodega">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseBodega" >
+                                                <i class="fa fa-user"></i>
                                                 Martin De Petris
                                             </a>
                                             <p> </p>
@@ -172,7 +177,7 @@
                                         </h5>
                                     </div>
 
-                                    <div id="collapseBodega" class="collapse" role="tabpanel" aria-labelledby="headingBodega">
+                                    <div id="collapseBodega" class="collapse" role="tabpanel" >
                                         <div class="card-block">
                                             <h2 class="text-center">$356,56</h2>
                                             <p class="text-center">1551754635</p>
@@ -201,12 +206,12 @@
                 <tr th:each="stock : ${stockList}" id="tbody-listos">
                     <td  th:text="${}">
                         <div class="alert alert-success" role="alert">
-                            <div id="accordionListos"  role="tablist" aria-multiselectable="true">
-                                <div class="card" data-toggle="collapse" data-parent="#accordion" href="#collapseListos" aria-expanded="false" aria-controls="collapseListos">
+                            <div id="accordionListos"  role="tablist" >
+                                <div class="card" data-toggle="collapse" data-parent="#accordion" href="#collapseListos">
                                     <div class="card-header" role="tab" id="headingListos">
                                         <h5 class="mb-0">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseListos" aria-expanded="false" aria-controls="collapseListos">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseListos" >
+                                                <i class="fa fa-user" ></i>
                                                 Martin De Petris
                                             </a>
                                             <p> </p>
@@ -226,12 +231,12 @@
                                         </h5>
                                     </div>
 
-                                    <div id="collapseListos" class="collapse" role="tabpanel" aria-labelledby="headingListos">
+                                    <div id="collapseListos" class="collapse" role="tabpanel" >
                                         <div class="card-block">
-                                            <h2 class="text-center" ><i class="fa fa-money" aria-hidden="true"></i > $356,56</h2>
-                                            <p class="text-center"><i class="fa fa-phone" aria-hidden="true"></i> 1551754635</p>
-                                            <p class="text-center"><i class="fa fa-map-marker" aria-hidden="true"></i> boyaca 473 6to B</p>
-                                            <p class="text-center"><i class="fa fa-envelope-o" aria-hidden="true"></i> Mdp@gmail.com</p>
+                                            <h2 class="text-center" ><i class="fa fa-money"></i > $356,56</h2>
+                                            <p class="text-center"><i class="fa fa-phone"></i> 1551754635</p>
+                                            <p class="text-center"><i class="fa fa-map-marker"></i> boyaca 473 6to B</p>
+                                            <p class="text-center"><i class="fa fa-envelope-o"></i> Mdp@gmail.com</p>
                                         </div>
                                     </div>
                                 </div>
@@ -247,8 +252,8 @@
 
 
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 </body>
 </html>
