@@ -96,6 +96,9 @@ public class DbSeeder implements CommandLineRunner {
 		List<Client> clients = new ArrayList<>();
 		clients.add(new Client("depetris.martin@gmail.com","Martin Depetris","1144444381","Boyaca 473 7 B", users.get(0)));
         clients.add(new Client("mariano.costanzo@gmail.com","Mariano Costanzo","1144235923","Boyaca 473 6 B", users.get(1)));
+        clients.add(new Client("cami.martinez1986@gmail.com","Camila Martinez","1163280329","Boyaca 473 7 B", users.get(0)));
+        clients.add(new Client("luismartinez@gmail.com","Luis Martinez","1199876726","Boyaca 682 3", users.get(1)));
+        clients.add(new Client("lucas.grula@gmail.com","Lucas Grula","1132321294","Culpina 1829 1", users.get(0)));
 
         clientRepository.save(clients);
 
@@ -124,6 +127,7 @@ public class DbSeeder implements CommandLineRunner {
         order.setClient(clients.get(0));
         order.setPriceList(priceLists.get(0));
         order.setStatus(OrderStatus.CREATED);
+        order.setDeliveryDate(new Date());
         order.setCreated(new Date());
         order.setOwner(users.get(0));
         orderList.add(order);
@@ -132,22 +136,25 @@ public class DbSeeder implements CommandLineRunner {
         order.setClient(clients.get(1));
         order.setPriceList(priceLists.get(1));
         order.setStatus(OrderStatus.CREATED);
+        order.setDeliveryDate(new Date());
         order.setCreated(new Date());
         order.setOwner(users.get(0));
         orderList.add(order);
 
         order = new Order();
-        order.setClient(clients.get(1));
+        order.setClient(clients.get(2));
         order.setPriceList(priceLists.get(1));
         order.setStatus(OrderStatus.IN_PROGRESS);
+        order.setDeliveryDate(new Date());
         order.setCreated(new Date());
         order.setOwner(users.get(0));
         orderList.add(order);
 
         order = new Order();
-        order.setClient(clients.get(1));
+        order.setClient(clients.get(3));
         order.setPriceList(priceLists.get(0));
         order.setStatus(OrderStatus.FINISHED);
+        order.setDeliveryDate(new Date());
         order.setCreated(new Date());
         order.setOwner(users.get(0));
         orderList.add(order);

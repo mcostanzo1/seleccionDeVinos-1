@@ -2,7 +2,7 @@ package com.dp3.domain;
 
 public enum OrderStatus {
 
-    PENDING,
+    DRAFT,
     CREATED,
     IN_PROGRESS,
     CANCELED,

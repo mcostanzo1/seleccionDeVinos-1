@@ -71,184 +71,152 @@
 
 <div class="container">
     <p> </p>
-    <p id="date"></p>
-    <h1><i class="fa fa-area-chart" aria-hidden="true"></i> Pedidos :</h1>
-    <!-- Trigger the modal with a button -->
-    <script>
-        n =  new Date();
-        y = n.getFullYear();
-        m = n.getMonth() + 1;
-        d = n.getDate();
-        document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
-    </script>
+    <h1><i class="fa fa-area-chart"></i> Pedidos :</h1>
 
+    <div class="row justify-content-md-center py-3 ">
+        <div class="col-md">
+            <div class="text-justify">
+                <h2 class="">1. Para Armar</h2>
+            </div>
+            <table class="table">
+                <tr th:each="order : ${createdOrders}">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-link" data-toggle="collapse" data-parent="#accordion" th:href="${'#' + order.orderId}" >
+                                <span class="text-left" th:text="${order.client.name + ' - ' + #dates.format(order.deliveryDate, 'dd/MM/yyyy')}"></span>
+                            </button>
 
-
-    <div class="row">
-
-        <div class="col-md-4">
-            <table class="table" id="paraArmar">
-                <thead class="thead-dark">
-                    <tr id="id02">
-                        <th scope="col">1. Para armar<span></span> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="stock : ${createdOrders}" id="tbody-paraArmar">
-                        <!--<td  th:text="${}">-->
-                            <div class="alert alert-danger" role="alert">
-                                <div id="accordion"  href="#collapseArmado" role="tablist">
-                                    <div class="card">
-                                        <div class="card-header" role="tab" id="headingArmado">
-                                            <h5 class="mb-0">
-                                                <div class="row">
-                                                    <a data-toggle="collapse" data-parent="#accordion" th:href="${'#' + stock.orderId}" >
-                                                        <i class="fa fa-user" ></i><span th:text="${' ' + stock.client.name}"></span>
-                                                    </a>
-
-                                                    <div class="col-sm">
-                                                        <form class="form-inline">
-                                                            <button class="btn btn-outline-success" th:action="@{/orders/details(orderId=${stock.orderId})}" method="POST" type="submit">Listo!</button>
-                                                        </form>
-                                                    </div>
-
-                                                    <div class="col-sm">
-                                                        <form class="form-inline">
-                                                            <button class="btn btn-outline-danger" th:href="@{/orders/cancel(orderId=${stock.orderId})}" th:href="@{/orders/details(orderId=${stock.orderId})}"  type="button">Cancelar</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-
-
-                                            </h5>
-                                        </div>
-
-                                        <div th:attr="id=${stock.orderId}" class="collapse" role="tabpanel">
-                                            <div class="card-block">
-                                                <h3 class="text-center" th:text="${stock.client.name}"></h3>
-                                                <p class="text-center" th:text="${stock.client.phone}"></p>
-                                                <p class="text-center" th:text="${stock.client.address}"></p>
-                                                <p class="text-center" th:text="${stock.client.email}"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <!--</td>-->
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-        <div class="col-md-4">
-            <table class="table" id="enBodega">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">2. En bodega<span></span></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="stock : ${stockList}" id="tbody-enbodega">
-                    <td  th:text="${}">
-                        <div class="alert alert-warning" role="alert">
-                            <div id="accordionBodega"  href="#collapseBodega" role="tablist">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingBodega">
-                                        <h5 class="mb-0">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseBodega" >
-                                                <i class="fa fa-user"></i>
-                                                Martin De Petris
-                                            </a>
-                                            <p> </p>
-                                            <div class="row">
-                                                <div class="col-sm">
-                                                    <form class="form-inline">
-                                                        <button class="btn btn-outline-success" href="" type="button">Listo!</button>
-                                                    </form>
-                                                </div>
-
-                                                <div class="col-sm">
-                                                    <form class="form-inline">
-                                                        <button class="btn btn-outline-danger" href="" type="button">Cancelar</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </h5>
-                                    </div>
-
-                                    <div id="collapseBodega" class="collapse" role="tabpanel" >
-                                        <div class="card-block">
-                                            <h2 class="text-center">$356,56</h2>
-                                            <p class="text-center">1551754635</p>
-                                            <p class="text-center">boyaca 473 6to B</p>
-                                            <p class="text-center">Mdp@gmail.com</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-
-        <div class="col-md-4">
-            <table class="table" id="paraEntregar">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">3. Listo para entregar<span></span> </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="stock : ${stockList}" id="tbody-listos">
-                    <td  th:text="${}">
-                        <div class="alert alert-success" role="alert">
-                            <div id="accordionListos"  role="tablist" >
-                                <div class="card" data-toggle="collapse" data-parent="#accordion" href="#collapseListos">
-                                    <div class="card-header" role="tab" id="headingListos">
-                                        <h5 class="mb-0">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseListos" >
-                                                <i class="fa fa-user" ></i>
-                                                Martin De Petris
-                                            </a>
-                                            <p> </p>
-                                            <div class="row">
-                                                <div class="col-sm">
-                                                    <form class="form-inline">
-                                                        <button class="btn btn-outline-success" href="" type="button">Listo!</button>
-                                                    </form>
-                                                </div>
-
-                                                <div class="col-sm">
-                                                    <form class="form-inline">
-                                                        <button class="btn btn-outline-danger" href="" type="button">Cancelar</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </h5>
-                                    </div>
-
-                                    <div id="collapseListos" class="collapse" role="tabpanel" >
-                                        <div class="card-block">
-                                            <h2 class="text-center" ><i class="fa fa-money"></i > $356,56</h2>
-                                            <p class="text-center"><i class="fa fa-phone"></i> 1551754635</p>
-                                            <p class="text-center"><i class="fa fa-map-marker"></i> boyaca 473 6to B</p>
-                                            <p class="text-center"><i class="fa fa-envelope-o"></i> Mdp@gmail.com</p>
-                                        </div>
+                            <div class="row float-right">
+                                <form th:action="@{/orders/{id}/progress(id=${order.orderId})}" method="POST">
+                                    <button class="btn btn-success fa fa-check" type="submit" ></button>
+                                </form>
+                                <div class="dropdown" >
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"></button>
+                                    <div class="dropdown-menu" >
+                                        <button type="button" class="btn btn-link dropdown-item" data-toggle="modal" data-target="#edit">Editar</button>
+                                        <form th:action="@{/orders/{id}/print(id=${order.orderId})}" method="GET">
+                                            <button class="btn btn-link dropdown-item" type="submit">Imprimir</button>
+                                        </form>
+                                        <div class="dropdown-divider"></div>
+                                        <form th:action="@{/orders/{id}/cancel(id=${order.orderId})}" method="POST">
+                                            <button class="btn btn-link dropdown-item" type="submit">Eliminar</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </td>
+
+                        <div th:attr="id=${order.orderId}" class="collapse" role="tabpanel">
+                            <div class="card-block">
+                                <h3 class="text-center" th:text="${order.client.name}"></h3>
+                                <p class="text-center" th:text="${order.client.phone}"></p>
+                                <p class="text-center" th:text="${order.client.address}"></p>
+                                <p class="text-center" th:text="${order.client.email}"></p>
+                            </div>
+                        </div>
+                    </div>
                 </tr>
-                </tbody>
+            </table>
+        </div>
+
+
+        <div class="col-md">
+            <div class="text-justify">
+                <h2 class="">2. Para Entregar</h2>
+            </div>
+            <table class="table">
+                <tr th:each="order : ${inProgressOrders}">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-link" data-toggle="collapse" data-parent="#accordion" th:href="${'#' + order.orderId}" >
+                                <span class="text-left" th:text="${order.client.name + ' - ' + #dates.format(order.deliveryDate, 'dd/MM/yyyy')}"></span>
+                            </button>
+
+                            <div class="row float-right">
+                                <form th:action="@{/orders/{id}/progress(id=${order.orderId})}" method="POST">
+                                    <button class="btn btn-success fa fa-check" type="submit" ></button>
+                                </form>
+                                <div class="dropdown" >
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"></button>
+                                    <div class="dropdown-menu" >
+                                        <button type="button" class="btn btn-link dropdown-item" data-toggle="modal" data-target="#edit">Editar</button>
+                                        <form th:action="@{/orders/{id}/print(id=${order.orderId})}" method="GET">
+                                            <button class="btn btn-link dropdown-item" type="submit">Imprimir</button>
+                                        </form>
+                                        <div class="dropdown-divider"></div>
+                                        <form th:action="@{/orders/{id}/cancel(id=${order.orderId})}" method="POST">
+                                            <button class="btn btn-link dropdown-item" type="submit">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div th:attr="id=${order.orderId}" class="collapse" role="tabpanel">
+                            <div class="card-block">
+                                <h3 class="text-center" th:text="${order.client.name}"></h3>
+                                <p class="text-center" th:text="${order.client.phone}"></p>
+                                <p class="text-center" th:text="${order.client.address}"></p>
+                                <p class="text-center" th:text="${order.client.email}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </table>
+        </div>
+
+
+
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-md">
+            <div class="text-justify">
+                <h2 class="">3. Finalizados</h2>
+            </div>
+            <table class="table">
+                <tr th:each="order : ${finishedOrders}">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-link" data-toggle="collapse" data-parent="#accordion" th:href="${'#' + order.orderId}" >
+                                <span class="text-left" th:text="${order.client.name + ' - ' + #dates.format(order.deliveryDate, 'dd/MM/yyyy')}"></span>
+                            </button>
+
+                            <div class="row float-right">
+                                <form th:action="@{/orders/{id}/progress(id=${order.orderId})}" method="POST">
+                                    <button class="btn btn-success fa fa-check" type="submit" ></button>
+                                </form>
+                                <div class="dropdown" >
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"></button>
+                                    <div class="dropdown-menu" >
+                                        <button type="button" class="btn btn-link dropdown-item" data-toggle="modal" data-target="#edit">Editar</button>
+                                        <form th:action="@{/orders/{id}/print(id=${order.orderId})}" method="GET">
+                                            <button class="btn btn-link dropdown-item" type="submit">Imprimir</button>
+                                        </form>
+                                        <div class="dropdown-divider"></div>
+                                        <form th:action="@{/orders/{id}/cancel(id=${order.orderId})}" method="POST">
+                                            <button class="btn btn-link dropdown-item" type="submit">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div th:attr="id=${order.orderId}" class="collapse" role="tabpanel">
+                            <div class="card-block">
+                                <h3 class="text-center" th:text="${order.client.name}"></h3>
+                                <p class="text-center" th:text="${order.client.phone}"></p>
+                                <p class="text-center" th:text="${order.client.address}"></p>
+                                <p class="text-center" th:text="${order.client.email}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
             </table>
         </div>
     </div>
-
 
 
 </div>

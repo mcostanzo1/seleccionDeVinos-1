@@ -22,6 +22,10 @@ public class OrderService {
     @Autowired
     private ProductService productService;
 
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
     @Transactional
     public Order generateNewOrder(Order order) {
         for (OrderDetail detail : order.getDetails()) {
@@ -41,7 +45,8 @@ public class OrderService {
     }
 
     @Transactional
-    public Order cancelOrder(Order order) {
+    public Order cancelOrder(Integer orderId) {
+        Order order = orderRepository.findOne(orderId);
         for (OrderDetail detail : order.getDetails()) {
             productService.returnStock(detail);
         }
@@ -55,12 +60,12 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> getOrders() {
-        return orderRepository.findAll();
+    public Order findOne(Integer id) {
+        return orderRepository.findOne(id);
     }
 
     public List<Order> getOrdersByStatus(OrderStatus status) {
-        return orderRepository.findByStatusOrderByDeliveryDateDesc(status);
+        return orderRepository.findByStatusOrderByDeliveryDate(status);
     }
 
 }

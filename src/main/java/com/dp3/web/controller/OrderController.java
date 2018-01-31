@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller()
 @RequestMapping("/orders")
 public class OrderController {
@@ -28,14 +30,26 @@ public class OrderController {
         return new ModelAndView("orderslist");
     }
 
-    @PostMapping(value="/details")
-    public ModelAndView viewDetails(Model model, @RequestParam("orderId") Integer orderId) {
-        orderService.progressOrder(orderId);
-        return getOrderView(model);
+    @GetMapping(value = "/all/")
+    public List<Order> getAllOrders() {
+        return orderService.findAll();
     }
 
-    @GetMapping(value = "/printOrder", produces = "application/pdf")
-    public ResponseEntity<byte[]> getPDF(@ModelAttribute Order order) throws DocumentException {
+    @PostMapping(value="/{id}/progress")
+    public ModelAndView progressOrder(@PathVariable("id") Integer orderId) {
+        orderService.progressOrder(orderId);
+        return new ModelAndView("redirect:/orders/");
+    }
+
+    @PostMapping(value="/{id}/cancel")
+    public ModelAndView cancelOrder(Model model, @PathVariable("id") Integer orderId) {
+        orderService.cancelOrder(orderId);
+        return new ModelAndView("redirect:/orders/");
+    }
+
+    @GetMapping(value = "/{id}/print", produces = "application/pdf")
+    public ResponseEntity<byte[]> getPDF(@PathVariable("id") Integer orderId) throws DocumentException {
+        Order order = orderService.findOne(orderId);
         Printer printService = new Printer(order);
         return printService.print();
     }

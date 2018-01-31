@@ -25,6 +25,7 @@ public class Order implements Printable {
     @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<OrderDetail> details = new ArrayList<>();
     private OrderStatus status;
+    @Column(nullable = false)
     private Date deliveryDate;
     private Date created = new Date();
     private Date lastUpdated = new Date();

@@ -36,7 +36,7 @@ public class ClientController {
     @PostMapping("/create")
     public ModelAndView createClient(Model model, @Valid @ModelAttribute Client client){
         clientService.createClient(client);
-        return new ModelAndView("redirect:/client/");
+        return new ModelAndView("redirect:/clients/");
     }
 
     @GetMapping(value = "/{id}")
@@ -63,7 +63,7 @@ public class ClientController {
     @PostMapping(value = "/delete/{id}")
     public ModelAndView deleteClient(Model model,@PathVariable("id") Integer id){
         clientService.delete(id);
-        return new ModelAndView("redirect:/client/");
+        return new ModelAndView("redirect:/clients/");
     }
 
 }

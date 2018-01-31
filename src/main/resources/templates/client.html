@@ -104,7 +104,7 @@
                                     var elems= document.getElementById(clientId);
                                     var body = document.getElementById('editionDetails');
                                     body.innerHTML = '' +
-                                        '<form id="editionForm" name="editionForm" method="post" action="/client/delete/'+ elems.id + '">'+
+                                        '<form id="editionForm" name="editionForm" method="post" action="/clients/delete/'+ elems.id + '">'+
                                         '<button type="submit" id="btn-delete" class="btn btn-outline-danger" />Borrar' +
                                         '</form>';
                                 }
@@ -144,7 +144,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form  id="clientForm" action="#" th:action="@{/client/create}" th:object="${client}"  method="post" name="clientForm">
+                            <form  id="clientForm" action="#" th:action="@{/clients/create}" th:object="${client}"  method="post" name="clientForm">
                                 <div class="form-group">
                                     <label for="name">Nombre</label>
                                     <input type="text" class="form-control" th:field="*{name}" id="name" name="name" placeholder="Juan Gomez, Coca-Cola S.A..."><br />
