@@ -49,14 +49,15 @@ public class ClientController {
         }
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable("id") Integer id,
+    @PostMapping(value = "/{id}/edit")
+    public ModelAndView updateClient(@PathVariable("id") Integer id,
                                                  @Valid @ModelAttribute Client client){
         Client myClient = clientService.getClientById(id);
-        if (client==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (client!=null){
+            clientService.updateClient(myClient, client);
         }
-        return new ResponseEntity<>(clientService.updateClient(myClient, client),HttpStatus.OK);
+        return new ModelAndView("redirect:/clients/");
+        //return new ResponseEntity<>(clientService.updateClient(myClient, client),HttpStatus.OK);
     }
 
 
