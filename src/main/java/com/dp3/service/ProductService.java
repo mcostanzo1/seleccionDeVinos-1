@@ -41,6 +41,12 @@ public class ProductService {
     }
 
     @Transactional
+    public void addStock(Product product, Integer finalStock) {
+        product.setQuantityOnStock(finalStock);
+        productRepository.save(product);
+    }
+
+    @Transactional
     public void discountStock(OrderDetail detail) {
         Product prod = detail.getProduct();
         prod.setQuantityOnStock(prod.getQuantityPerBox()-detail.getQuantity());
@@ -52,5 +58,9 @@ public class ProductService {
         Product prod = detail.getProduct();
         prod.setQuantityOnStock(prod.getQuantityPerBox()+detail.getQuantity());
         productRepository.save(prod);
+    }
+
+    public Product findOne(Integer id) {
+        return productRepository.findOne(id);
     }
 }

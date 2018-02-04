@@ -101,109 +101,72 @@
                     <th scope="col">Nombre <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Variedad <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th hidden scope="col">Unidades por caja <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                    <th scope="col">Cant. botellas <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                    <th scope="col">Cant. cajas<span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th hidden scope="col">Botellas por Caja <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                    <th scope="col">Unidades en Stock <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="stock : ${stockList}" id="id01">
-                        <td hidden th:text="${stock.productId}"></td>
-                        <td th:text="${stock.cellar.cellarName}"></td>
-                        <td th:text="${stock.name}"></td>
-                        <td th:text="${stock.variety}"></td>
-                        <td th:text="${stock.quantityPerBox}"></td>
-                        <td th:text="${stock.quantityOnStock}"></td>
+                    <tr th:each="stock : ${stockList}">
+                        <td hidden th:text="${stock.productId}" id="table-productId"></td>
+                        <td th:text="${stock.cellar.cellarName}" id="table-cellarName"></td>
+                        <td th:text="${stock.name}" id="table-name"></td>
+                        <td th:text="${stock.variety}" id="table-variety"></td>
+                        <td hidden th:text="${stock.quantityPerBox}" id="table-quantityPerBox"></td>
+                        <td th:text="${stock.quantityOnStock}" id="table-quantityOnStock"></td>
 
                         <!--<td th:text="${stock.price}"></td>-->
                         <td>
-                            <button type="button" class="btn btn-outline-info" th:attr="id=${stock.productId}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editStock">Editar</button>
-                            <script>
-                                function myFunction(productId) {
-                                    var elems= document.getElementById(productId);
-                                    var body = document.getElementById('editionDetails');
-                                    body.innerHTML= ''+
-                                        '<div class="form-group">'+
-                                                     '<form id="editionForm" name="editionForm" method="post" action="/stock/delete/'+ elems.id + '">'+
-                                                        '<div class="alert alert-danger" role="alert">'+
-                                                            '<strong>Zona de peligro!</strong> Desea borrar este producto?'+
-                                                        '</div>'+
-                                                         '<button type="submit" id="btn-delete" class="btn btn-outline-danger" />Borrar' +
-                                                     '</form>'+
-                                        '</div>'
-                                }
-                            </script>
+                            <button type="button" class="btn btn-outline-info addStock" data-toggle="modal"
+                                    th:attr="id=${stock.productId}" data-target="#addStockModal">Editar</button>
                         </td>
-                        <script>
-                            function sortListDir() {
-                                var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-                                list = document.getElementById("id01");
-                                switching = true;
-                                dir = "asc";
-                                while (switching) {
-                                    switching = false;
-                                    b = list.getElementsByTagName("TR");
-                                    for (i = 0; i < (b.length - 1); i++) {
-                                        shouldSwitch = false;
-                                        if (dir == "asc") {
-                                            if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-                                                shouldSwitch= true;
-                                                break;
-                                            }
-                                        } else if (dir == "desc") {
-                                            if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
-                                                shouldSwitch= true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (shouldSwitch) {
-                                        b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                                        switching = true;
-                                        switchcount ++;
-                                    } else {
-
-                                        if (switchcount == 0 && dir == "asc") {
-                                            dir = "desc";
-                                            switching = true;
-                                        }
-                                    }
-                                }
-                            }
-                        </script>
                 </tbody>
             </table>
 
 
             <!-- Edit Stock Modal -->
-            <div id="editStock" class="modal fade" role="dialog">
+            <div id="addStockModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Editar</h4>
+                            <h4 class="modal-title" id="stockTitle">Editar</h4>
                             <button type="button" class="close" aria-label="Close" data-dismiss="modal">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form  id="editStockForm" action="#" th:action="@{/stock/editStock}" method="post" name="stockForm">
-                                <div class="form-group">
-                                    <i class="fa fa-archive" aria-hidden="true"></i><label for="quantityOnStockBox">  Cantidad de cajas</label>
-                                    <input type="number" class="form-control" id="quantityOnStockBox" placeholder="1,2,3...90..." name="quantityOnStockBox"/><br />
-                                    <i class="fa fa-glass" aria-hidden="true"></i><label for="quantityOnStockBox">  Cantidad de botellas</label>
-                                    <input type="number" class="form-control" id="quantityOnStockBottle" placeholder="1,2,3...90..." name="quantityOnStockBottle"/><br />
-                                    <button type="submit" id="stockSubmit"  class="btn btn-outline-success" >Guardar</button>
+                            <form id="editStockForm" action="#" th:action="@{/products/addStock}" th:object="${productWrapper}" method="post">
+
+                                <input hidden id="productId" th:field="*{product}" />
+                                <p class="text-center" >Actualmente en stock hay <span id="quantityOnStock"></span> unidades</p>
+
+                                <div class="form-group row">
+                                    <label for="boxes" class="col col-form-label"><i class="fa fa-archive" aria-hidden="true"></i> Cajas a agregar <small>(<span id="quantityPerBox"></span> uni.)</small></label>
+                                    <div class="col-sm">
+                                        <input type="number" class="form-control" id="boxes" />
+                                    </div>
                                 </div>
+
+                                <div class="form-group row">
+                                    <label for="boxes" class="col col-form-label"><i class="fa fa-glass" aria-hidden="true"></i> Unidades a agregar</label>
+                                    <div class="col-sm">
+                                        <input type="number" class="form-control" id="units" />
+                                    </div>
+                                </div>
+
+                                <p class="lead">Estás agregando <span id="totalToAdd" class="text-info"></span> unidades.</p>
+                                <p class="text-center font-weight-bold lead">TOTAL EN STOCK: <span class="text-success" id="finalTotal"></span></p>
+                                <input hidden id="finalTotalInput" th:field="*{finalQuantity}"/>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Confirmar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                </div>
+
                             </form>
                         </div>
-
-                        <div class="modal-body">
-                            <div id="editionDetails">
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
@@ -262,9 +225,9 @@
                                     <label for="variety">Variedad</label>
                                     <input type="text" class="form-control"  th:field="*{wine.variety}" placeholder="Malbec, Chardonnay..." id="variety" name="variety"/><br />
                                     <label for="quantityPerBox">Cantidad por caja</label>
-                                    <input type="number" class="form-control" th:field="*{wine.quantityPerBox}" id="quantityPerBox" placeholder="6, 9, 12..." name="quantityPerBox"/><br />
+                                    <input type="number" class="form-control" th:field="*{wine.quantityPerBox}" placeholder="6, 9, 12..." name="quantityPerBox"/><br />
                                     <!--<div class="form-group">-->
-                                        <select class="form-control selectpicker cellar" data-live-search="true" name="cellar">
+                                        <select class="form-control cellar" data-live-search="true" name="cellar" th:field="*{cellarId}">
                                             <option data-th-each="cellar : ${cellars}" data-th-value="${cellar.cellarId}" data-th-text="${cellar.cellarName}"></option>
                                         </select>
                                     <!--</div>-->
@@ -292,6 +255,7 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script th:src="@{/js/stock.js}"></script>
 </body>
 
 </body>

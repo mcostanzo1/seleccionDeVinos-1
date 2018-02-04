@@ -7,6 +7,7 @@ public class ProductWrapper {
     private Product product;
     private Integer boxQuantity;
     private Integer unitQuantity;
+    private Integer finalQuantity;
 
     public ProductWrapper() {
     }
@@ -33,5 +34,13 @@ public class ProductWrapper {
 
     public void setUnitQuantity(Integer unitQuantity) {
         this.unitQuantity = unitQuantity;
+    }
+
+    public Integer getFinalQuantity() {
+        return finalQuantity;
+    }
+
+    public void setFinalQuantity(Integer finalQuantity) {
+        this.finalQuantity = finalQuantity;
     }
 }

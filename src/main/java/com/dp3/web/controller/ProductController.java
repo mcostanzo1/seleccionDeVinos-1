@@ -29,6 +29,7 @@ public class ProductController {
     @GetMapping("/")
     public ModelAndView getProducts(Model model){
         model.addAttribute("cellar", new Cellar());
+        model.addAttribute("productWrapper", new ProductWrapper());
         model.addAttribute("wineWrapper", new WineWrapper());
         model.addAttribute("stockList", productService.findAll());
         model.addAttribute("cellars", cellarService.findAll());
@@ -44,5 +45,13 @@ public class ProductController {
     public ModelAndView editProduct(@ModelAttribute ProductWrapper wrapper) {
         productService.addStock(wrapper);
         return new ModelAndView("redirect:/products/all");
+    }
+
+    @PostMapping("/addStock")
+    public ModelAndView addStock(@ModelAttribute ProductWrapper wrapper){
+        if (wrapper.getProduct() != null) {
+            productService.addStock(wrapper.getProduct(), wrapper.getFinalQuantity());
+        }
+        return new ModelAndView("redirect:/products/");
     }
 }

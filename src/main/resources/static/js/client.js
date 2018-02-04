@@ -3,8 +3,8 @@
 $(document).ready(function() {
 
     $('.editClient').click(function() {
-        //console.log("Prueba entra metodo");
-        var $row = $(this).closest("tr");    // Find the row
+
+        var $row = $(this).closest("tr");
 
         $('.title').text("Editar cliente");
 

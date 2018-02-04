@@ -41,7 +41,7 @@ public class WineController {
     @PostMapping("/create")
     public ModelAndView createWine(Model model, @ModelAttribute WineWrapper wrapper) throws CellarNotFoundException {
         wineService.createWine(wrapper);
-        return new ModelAndView("redirect:/products/all");
+        return new ModelAndView("redirect:/products/");
     }
 
     @PutMapping(value = "/{id}")
@@ -55,5 +55,7 @@ public class WineController {
     public void deleteWine(@PathVariable("id") Integer id){
         wineService.delete(id);
     }
+
+
 
 }

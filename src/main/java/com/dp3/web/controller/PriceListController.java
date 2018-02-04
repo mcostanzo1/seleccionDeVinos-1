@@ -2,6 +2,7 @@ package com.dp3.web.controller;
 
 import com.dp3.domain.BaseOfPriceList;
 import com.dp3.domain.PriceList;
+import com.dp3.domain.Product;
 import com.dp3.service.PriceListService;
 import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -49,14 +54,15 @@ public class PriceListController {
         return new ModelAndView("redirect:/lists/");
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<PriceList> getPriceListByListCode(@PathVariable("id") Integer id){
+    @GetMapping(value = "/{id}/details")
+    public ModelAndView getPriceListByListCode(Model model, @PathVariable("id") Integer id){
         PriceList priceList = priceListService.findById(id);
-        if (priceList==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(priceList, HttpStatus.OK);
+        if (priceList!=null) {
+            model.addAttribute("listTitle", priceList.getDescription());
+            model.addAttribute("productList", priceList.getProductPrice());
+            return new ModelAndView("pricelistdetail");
         }
+        return null;
     }
 
     @PutMapping(value = "/edit/{id}")

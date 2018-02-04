@@ -83,12 +83,33 @@ public class DbSeeder implements CommandLineRunner {
 		cellarRepository.save(cellarList);
 
 		List<Wine> wineList = new ArrayList<>();
+        Wine wine = new Wine("Malamado", 12, "Malbec", cellarList.get(0), new BigDecimal("1150"));
+        wine.setQuantityOnStock(18);
+		wineList.add(wine);
 
-		wineList.add(new Wine("Toro Viejo", 12, "Malbec", cellarList.get(0), new BigDecimal("150")));
-        wineList.add(new Wine("Toro Viejo", 9, "Cabernet", cellarList.get(0), new BigDecimal("179.50")));
-        wineList.add(new Wine("Lopez", 6, "Chardonnay", cellarList.get(0), new BigDecimal("60.75")));
-        wineList.add(new Wine("Termidor", 6, "Syrah", cellarList.get(1), new BigDecimal("88.25")));
-        wineList.add(new Wine("Uvita",12 , "Malbec", cellarList.get(1), new BigDecimal("400")));
+        wine = new Wine("Malamado", 9, "Cabernet", cellarList.get(1), new BigDecimal("179.50"));
+        wine.setQuantityOnStock(25);
+        wineList.add(wine);
+
+        wine = new Wine("Rutini", 6, "Chardonnay", cellarList.get(0), new BigDecimal("610.75"));
+        wine.setQuantityOnStock(80);
+        wineList.add(wine);
+
+        wine = new Wine("Alma Negra", 6, "Syrah", cellarList.get(1), new BigDecimal("88.25"));
+        wine.setQuantityOnStock(105);
+        wineList.add(wine);
+
+        wine = new Wine("Alma Negra", 6, "Blend", cellarList.get(1), new BigDecimal("105.45"));
+        wine.setQuantityOnStock(266);
+        wineList.add(wine);
+
+        wine = new Wine("Salentain Reserve",6 , "Malbec", cellarList.get(1), new BigDecimal("532"));
+        wine.setQuantityOnStock(405);
+        wineList.add(wine);
+
+        wine = new Wine("Fabre Montmayou",9 , "Malbec", cellarList.get(0), new BigDecimal("4000"));
+        wine.setQuantityOnStock(29);
+        wineList.add(wine);
 
 		wineRepository.save(wineList);
 
@@ -116,7 +137,7 @@ public class DbSeeder implements CommandLineRunner {
         list.setDescription("Lista Mayorista");
         list.setBase(BaseOfPriceList.PRICE_LIST);
         list.setBasePriceList(priceLists.get(0));
-        list.setDiscountPercentage(new BigDecimal(10));
+        list.setDiscountPercentage(new BigDecimal(15));
         priceListService.createNewPriceList(list);
         priceLists.add(list);
         priceListRepository.save(list);

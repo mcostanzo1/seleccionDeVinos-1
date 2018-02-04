@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Listas de precios</title>
+        <meta charset="utf-8" />
+        <script src="https://use.fontawesome.com/33078ec2bc.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"/>
+    </head>
+    <body>
+    <!--Nav-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">selecciondevinos.com</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/orders/">Pedidos</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/products/">Stock</a>
+                </li>
+                <li class="nav-item  active">
+                    <a class="nav-link" href="/lists/">Listas de precios<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/clients/">Clientes </a>
+                </li>
+                <form class="form-inline">
+                    <button class="btn btn-outline-success" href="/orders/new" type="button">NUEVO PEDIDO</button>
+                </form>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" id="theWineSearch" onkeyup='searchTable()' placeholder="Buscador...">
+                <script>
+                    function searchTable() {
+                        var input, filter, found, table, tr, td, i, j;
+                        input = document.getElementById("theWineSearch");
+                        filter = input.value.toUpperCase();
+                        table = document.getElementById("listTable");
+                        tr = table.getElementsByTagName("tr");
+                        for (i = 0; i < tr.length; i++) {
+                            td = tr[i].getElementsByTagName("td");
+                            for (j = 0; j < td.length; j++) {
+                                if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                    found = true;
+                                }
+                            }
+                            if (found) {
+                                tr[i].style.display = "";
+                                found = false;
+                            } else {
+                                if (tr[i].id !== 'id02'){tr[i].style.display = "none";}
+                            }
+                        }
+                    }
+
+                </script>
+            </form>
+        </div>
+    </nav>
+
+
+        <div class="container">
+            <p> </p>
+            <h1 class="text-justify" th:text="${listTitle}"> Título de la lista</h1>
+
+
+
+            <br/>
+            <!-- List Table -->
+            <table id="listTable" class="table tablesorter" id="productTable">
+                <thead class="thead-dark">
+                    <tr id="id02">
+                        <th scope="col-auto">Producto </th>
+                        <th scope="col-3">Precio original </th>
+                        <th scope="col-3">Precio de esta lista </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable-row" th:each="productList : ${productList}">
+                        <td th:text="${productList.key.name}" id="table-listId"></td>
+                        <td th:text="${'$ '+ #numbers.formatDecimal(productList.key.prices[0].price,0,2,'COMMA')}"></td>
+                        <td class="font-weight-bold" th:text="${'$ '+ #numbers.formatDecimal(productList.value,0,2,'COMMA')}"></td>
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+                integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+        <script th:src="@{/js/jquery.tablesorter.min.js}"></script>
+        <script th:src="@{/js/pricelistdetail.js}"></script>
+    </body>
+</html>

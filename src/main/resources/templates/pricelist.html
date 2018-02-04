@@ -83,18 +83,19 @@
                     <th scope="col">Origen de la Lista <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Lista de base <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                     <th scope="col">Porcentaje aplicado <span><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                    <th scope="col">Acciones</th>
+                    <!--<th scope="col">Acciones</th>-->
 
 
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="priceList : ${lists}">
-                        <td hidden th:text="${priceList.id}"></td>
+                    <tr class="clickable-row" th:each="priceList : ${lists}">
+                        <td hidden th:text="${priceList.id}" id="table-listId"></td>
                         <td th:text="${priceList.description}"></td>
                         <td th:text="#{${'priceList.base.' + priceList.base}}" ></td>
                         <td th:text="${priceList.basePriceList?.description}"></td>
                         <td th:text="${priceList.discountPercentage}"></td>
+                        <!--
                         <td>
                             <button class="btn btn-outline-info" th:attr="id=${priceList.id}" data-toggle="modal" onclick="myFunction(this.id)" data-target="#editList">
                                 Editar
@@ -110,6 +111,7 @@
                                 };
                             </script>
                         </td>
+                        -->
                 </tbody>
             </table>
 
@@ -126,7 +128,7 @@
                         <div id="editionDetails" class="modal-body">
                         </div>
                         <div class="modal-footer">
-                            <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button  type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
 
@@ -170,7 +172,7 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button  type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
 
@@ -178,8 +180,12 @@
             </div>
 
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+                integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script th:src="@{/js/pricelist.js}"></script>
 </body>
 </html>
